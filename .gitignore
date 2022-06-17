@@ -1,12 +1,19 @@
 /node_modules
 /.pnp
 .pnp.js
+.png
 
 # testing
 /coverage
 
 # production
 /build
+
+# images
+*.jpg
+*.jpeg
+*.png
+*.gif
 
 # misc
 .DS_Store
