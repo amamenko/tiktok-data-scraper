@@ -1,8 +1,8 @@
-const axios = require("axios");
-const puppeteer = require("puppeteer-extra");
-const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const { exec } = require("child_process");
-require("dotenv").config();
+import "dotenv/config";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { exec } from "child_process";
+import { HTTPRequest, Page } from "puppeteer";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -22,7 +22,43 @@ export const scrapeTikTok = async () => {
         "--no-zygote",
       ],
     });
+
     const page = await browser.newPage();
+    page.on("requestfinished", async (request: HTTPRequest) => {
+      const response = request.response();
+      if (request.url().includes("get_live_anchor_list")) {
+        const data = await response.json();
+        if (data && data.data && data.data.inLiveAmount) {
+          const totalLive = data.data.inLiveAmount;
+          const individualInfos = data.data.liveAnchorInfos;
+          console.log({ totalLive });
+          if (
+            individualInfos &&
+            Array.isArray(individualInfos) &&
+            individualInfos.every((el) => el.indicators)
+          ) {
+            const allLiveResults = individualInfos.map((el) => {
+              const roomID = el.roomID;
+              const user = el.anchorBaseInfo.user_base_info;
+              const userDisplayID = user.display_id;
+              const userID = user.user_id;
+              const userAvatar = user.avatar;
+              const totalDiamonds = el.indicators?.diamonds || 0;
+              return {
+                roomID,
+                user: {
+                  displayID: userDisplayID,
+                  userID,
+                  avatar: userAvatar,
+                },
+                diamonds: totalDiamonds,
+              };
+            });
+            console.log({ allLiveResults });
+          }
+        }
+      }
+    });
 
     await page.goto("https://live-backstage.tiktok.com/login?loginType=email", {
       waitUntil: "networkidle2",
@@ -47,23 +83,32 @@ export const scrapeTikTok = async () => {
     } catch (e) {
       console.error("No log in button found!");
     }
-    const findByTextAndClick = async (query: string) => {
-      try {
-        const [button] = await page.$x(
-          `//span.semi-navigation-item-text[contains(., '${query}')]`
-        );
-        if (button) {
-          await button.click();
-        }
-      } catch (e) {
-        console.error(`No ${query} section button found!`);
-      }
-    };
-
-    findByTextAndClick("Hosts");
-    findByTextAndClick("LIVE now");
 
     await page.waitForTimeout(10000);
+
+    await page.goto("https://live-backstage.tiktok.com/portal/anchor/live", {
+      waitUntil: "networkidle2",
+    });
+
+    await page.waitForTimeout(10000);
+
+    // Keep clicking next button until it is disabled to trigger all paginated requests
+    const isElementVisible = async (page: Page, cssSelector: string) => {
+      let visible = true;
+      await page.waitForTimeout(5000);
+      await page
+        .waitForSelector(cssSelector, { visible: true, timeout: 10000 })
+        .catch(() => {
+          visible = false;
+        });
+      return visible;
+    };
+    const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
+    let loadMoreVisible = await isElementVisible(page, cssSelector);
+    while (loadMoreVisible) {
+      await page.click(cssSelector).catch(() => {});
+      loadMoreVisible = await isElementVisible(page, cssSelector);
+    }
 
     await page.screenshot({ path: "test1.png" });
 
