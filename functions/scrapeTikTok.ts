@@ -3,6 +3,9 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { exec } from "child_process";
 import { HTTPRequest, Page } from "puppeteer";
+import { format, subDays } from "date-fns";
+import { DailyLive } from "../models/DailyLive";
+import { Live } from "../interfaces/live.interface";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -29,14 +32,16 @@ export const scrapeTikTok = async () => {
       if (request.url().includes("get_live_anchor_list")) {
         const data = await response.json();
         if (data && data.data && data.data.inLiveAmount) {
-          const totalLive = data.data.inLiveAmount;
+          // const totalLive = data.data.inLiveAmount;
           const individualInfos = data.data.liveAnchorInfos;
-          console.log({ totalLive });
           if (
             individualInfos &&
             Array.isArray(individualInfos) &&
             individualInfos.every((el) => el.indicators)
           ) {
+            const yesterday = format(subDays(new Date(), 1), "MM/dd/yyyy");
+            const today = format(new Date(), "MM/dd/yyyy");
+            const fullTimeDate = format(new Date(), "PPpp");
             const allLiveResults = individualInfos.map((el) => {
               const roomID = el.roomID;
               const user = el.anchorBaseInfo.user_base_info;
@@ -54,7 +59,62 @@ export const scrapeTikTok = async () => {
                 diamonds: totalDiamonds,
               };
             });
-            console.log({ allLiveResults });
+            // First compare to yesterday's previous live data just in case to check for still streaming lives
+            const yesterdayOldLiveData = await DailyLive.find({
+              date: yesterday,
+            }).catch((e) => console.error(e));
+            const yesterdayLiveDataArr = yesterdayOldLiveData[0]?.lives;
+            const yesterdayRoomIDs = yesterdayLiveDataArr
+              ? yesterdayLiveDataArr.map((live: Live) => live.roomID)
+              : [];
+            // Compare to today's previous live data
+            const oldLiveData = await DailyLive.find({
+              date: today,
+            }).catch((e) => console.error(e));
+            const liveDataArr = oldLiveData[0]?.lives;
+            const oldRoomIDs = liveDataArr.map((live: Live) => live.roomID);
+            for (const live of allLiveResults) {
+              const handleYesterdayMatch = () => {
+                const foundYesterdayLive = yesterdayLiveDataArr.find(
+                  (el: Live) => el.roomID === live.roomID
+                );
+                if (foundYesterdayLive) {
+                  const newCurrentLive = {
+                    ...live,
+                    diamonds: live.diamonds - foundYesterdayLive.diamonds,
+                  };
+                  return newCurrentLive;
+                }
+                return;
+              };
+              if (!oldRoomIDs.includes(live.roomID)) {
+                if (yesterdayRoomIDs.includes(live.roomID)) {
+                  const newLiveObj = handleYesterdayMatch();
+                  liveDataArr.push(newLiveObj);
+                } else {
+                  liveDataArr.push(live);
+                }
+              } else {
+                const foundIndex = liveDataArr.findIndex(
+                  (el: Live) => el.roomID === live.roomID
+                );
+                if (foundIndex >= 0) {
+                  if (yesterdayRoomIDs.includes(live.roomID)) {
+                    const newLiveObj = handleYesterdayMatch();
+                    liveDataArr[foundIndex] = newLiveObj;
+                  } else {
+                    liveDataArr[foundIndex] = live;
+                  }
+                }
+              }
+            }
+            const liveDateFilter = { date: today };
+            const liveDataUpdate = { date: today, lives: liveDataArr };
+            // Update last actor
+            await DailyLive.findOneAndUpdate(liveDateFilter, liveDataUpdate);
+            console.log(
+              `Successfully updated ${today} lives at ${fullTimeDate}!`
+            );
           }
         }
       }
