@@ -6,6 +6,7 @@ import { HTTPRequest, Page } from "puppeteer";
 import { format, subDays } from "date-fns";
 import { DailyLive } from "../models/DailyLive";
 import { Live } from "../interfaces/live.interface";
+import { User } from "../models/User";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -63,36 +64,84 @@ export const scrapeTikTok = async () => {
             const yesterdayOldLiveData = await DailyLive.find({
               date: yesterday,
             }).catch((e) => console.error(e));
-            const yesterdayLiveDataArr = yesterdayOldLiveData[0]?.lives;
-            const yesterdayRoomIDs = yesterdayLiveDataArr
-              ? yesterdayLiveDataArr.map((live: Live) => live.roomID)
+            const yesterdayLiveDataArr: Live[] = yesterdayOldLiveData[0]
+              ? yesterdayOldLiveData[0].lives
               : [];
+            const yesterdayRoomIDs = yesterdayLiveDataArr.map(
+              (live: Live) => live.roomID
+            );
+
             // Compare to today's previous live data
             const oldLiveData = await DailyLive.find({
               date: today,
             }).catch((e) => console.error(e));
-            const liveDataArr = oldLiveData[0]?.lives;
+            if (!oldLiveData[0]) {
+              // Current date live document doesn't exist - create one
+              await DailyLive.create({
+                date: today,
+                paths: [],
+              }).catch((e) => console.error(e));
+            }
+            const liveDataArr: Live[] = oldLiveData[0]
+              ? oldLiveData[0].lives
+              : [];
             const oldRoomIDs = liveDataArr.map((live: Live) => live.roomID);
             for (const live of allLiveResults) {
+              const matchingUserFilter = {
+                userID: live.user.userID,
+              };
+              const matchingUser = await User.find(matchingUserFilter).catch(
+                (e) => console.error(e)
+              );
+              if (matchingUser[0]) {
+                // User already exists in DB
+                const { displayID, userID, avatar } = matchingUser[0];
+                if (
+                  displayID !== live.user.displayID ||
+                  userID !== live.user.userID ||
+                  avatar !== live.user.avatar
+                ) {
+                  // User in DB contains outdated data - update user
+                  await User.findOneAndUpdate(matchingUserFilter, live.user);
+                }
+              } else {
+                // User doesn't exist in DB - add new user
+                await User.create(live.user).catch((e) => console.error(e));
+              }
+
               const handleYesterdayMatch = () => {
                 const foundYesterdayLive = yesterdayLiveDataArr.find(
                   (el: Live) => el.roomID === live.roomID
                 );
                 if (foundYesterdayLive) {
                   const newCurrentLive = {
-                    ...live,
-                    diamonds: live.diamonds - foundYesterdayLive.diamonds,
+                    roomID: live.roomID,
+                    userID: live.user.userID,
+                    diamonds:
+                      live.diamonds - Number(foundYesterdayLive.diamonds),
+                    updatedAt: new Date(),
+                    createdAt: foundYesterdayLive.createdAt,
                   };
                   return newCurrentLive;
                 }
                 return;
               };
               if (!oldRoomIDs.includes(live.roomID)) {
+                // This live did not start today
                 if (yesterdayRoomIDs.includes(live.roomID)) {
+                  // Live started yesterday
                   const newLiveObj = handleYesterdayMatch();
                   liveDataArr.push(newLiveObj);
                 } else {
-                  liveDataArr.push(live);
+                  // This is a new live
+                  const modifiedLive = {
+                    roomID: live.roomID,
+                    userID: live.user.userID,
+                    diamonds: live.diamonds,
+                    updatedAt: new Date(),
+                    createdAt: new Date(),
+                  };
+                  liveDataArr.push(modifiedLive);
                 }
               } else {
                 const foundIndex = liveDataArr.findIndex(
@@ -100,17 +149,27 @@ export const scrapeTikTok = async () => {
                 );
                 if (foundIndex >= 0) {
                   if (yesterdayRoomIDs.includes(live.roomID)) {
+                    // Live started yesterday
                     const newLiveObj = handleYesterdayMatch();
                     liveDataArr[foundIndex] = newLiveObj;
                   } else {
-                    liveDataArr[foundIndex] = live;
+                    const oldObj = liveDataArr[foundIndex];
+                    // Update known live
+                    const modifiedLive = {
+                      roomID: live.roomID,
+                      userID: live.user.userID,
+                      diamonds: live.diamonds,
+                      updatedAt: new Date(),
+                      createdAt: oldObj.createdAt,
+                    };
+                    liveDataArr[foundIndex] = modifiedLive;
                   }
                 }
               }
             }
             const liveDateFilter = { date: today };
             const liveDataUpdate = { date: today, lives: liveDataArr };
-            // Update last actor
+            // Update live data
             await DailyLive.findOneAndUpdate(liveDateFilter, liveDataUpdate);
             console.log(
               `Successfully updated ${today} lives at ${fullTimeDate}!`
@@ -125,8 +184,6 @@ export const scrapeTikTok = async () => {
     });
 
     await page.waitForTimeout(5000);
-
-    await page.screenshot({ path: "test.png" });
 
     try {
       await page.click("button.semi-button-secondary");
@@ -169,8 +226,6 @@ export const scrapeTikTok = async () => {
       await page.click(cssSelector).catch(() => {});
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
-
-    await page.screenshot({ path: "test1.png" });
 
     await browser.close();
   } catch (e) {

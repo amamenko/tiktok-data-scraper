@@ -5,8 +5,6 @@ import cron from "node-cron";
 import cors from "cors";
 import enforce from "express-sslify";
 import { scrapeTikTok } from "./functions/scrapeTikTok";
-import { DailyLive } from "./models/DailyLive";
-import { format, addDays } from "date-fns";
 
 const app = express();
 
@@ -22,15 +20,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-// scrapeTikTok();
-
-// Create DailyLive document for tomorrow every night right before midnight
-cron.schedule("59 23 * * *", async () => {
-  const tomorrow = format(addDays(new Date(), 1), "MM/dd/yyyy");
-  await DailyLive.create({
-    date: tomorrow,
-    paths: [],
-  }).catch((e) => console.error(e));
+// Scrape Tik Tok stats every 10 minutes
+cron.schedule("*/10 * * * *", async () => {
+  scrapeTikTok();
 });
 
 app.get("/", (req: Request, res: Response) => {

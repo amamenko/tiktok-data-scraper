@@ -1,9 +1,7 @@
 export interface Live {
-  roomID: string;
-  user: {
-    displayID: string;
-    userID: string;
-    avatar: string;
-  };
-  diamonds: number;
+  roomID: String;
+  userID: String;
+  diamonds: Number;
+  createdAt: Date;
+  updatedAt: Date;
 }

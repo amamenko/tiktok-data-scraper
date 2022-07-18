@@ -6,12 +6,10 @@ const dailyLiveSchema = new mongoose.Schema(
     lives: [
       {
         roomID: String,
-        user: {
-          displayID: String,
-          userID: String,
-          avatar: String,
-        },
+        userID: String,
         diamonds: Number,
+        createdAt: Date,
+        updatedAt: Date,
       },
     ],
   },
