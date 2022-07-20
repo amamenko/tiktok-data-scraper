@@ -118,9 +118,11 @@ export const scrapeTikTok = async () => {
                     roomID: live.roomID,
                     userID: live.user.userID,
                     diamonds:
-                      live.diamonds - Number(foundYesterdayLive.diamonds),
+                      live.diamonds - Number(foundYesterdayLive.diamonds) >= 0
+                        ? live.diamonds - Number(foundYesterdayLive.diamonds)
+                        : 0,
                     updatedAt: new Date(),
-                    createdAt: foundYesterdayLive.createdAt,
+                    createdAt: new Date(),
                   };
                   return newCurrentLive;
                 }

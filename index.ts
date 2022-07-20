@@ -5,6 +5,8 @@ import cron from "node-cron";
 import cors from "cors";
 import enforce from "express-sslify";
 import { scrapeTikTok } from "./functions/scrapeTikTok";
+import { DailyLive } from "./models/DailyLive";
+import { format } from "date-fns";
 
 const app = express();
 
@@ -23,6 +25,53 @@ if (process.env.NODE_ENV === "production") {
 // Scrape Tik Tok stats every 10 minutes
 cron.schedule("*/10 * * * *", async () => {
   scrapeTikTok();
+});
+
+app.get("/api/daily_live", [], async (req: Request, res: Response) => {
+  const currentDate = format(new Date(), "MM/dd/yyyy");
+  const dailyLiveGen = await DailyLive.find(
+    { date: currentDate },
+    { date: 1, createdAt: 1, updatedAt: 1 }
+  ).catch((e) => console.error(e));
+  const dailyLiveLives = await DailyLive.aggregate([
+    { $match: { date: currentDate } }, // you can give any condition here.
+    { $unwind: "$date" },
+    { $unwind: "$createdAt" },
+    { $unwind: "$updatedAt" },
+    { $unwind: "$lives" },
+    {
+      $lookup: {
+        from: "users",
+        localField: "lives.userID",
+        foreignField: "userID",
+        as: "userInfo",
+      },
+    },
+    { $unwind: "$userInfo" },
+    {
+      $project: {
+        _id: 0,
+        roomID: "$lives.roomID",
+        diamonds: "$lives.diamonds",
+        displayID: "$userInfo.displayID",
+        userID: "$userInfo.userID",
+        avatar: "$userInfo.avatar",
+        updatedAt: "$userInfo.updatedAt",
+        createdAt: "$userInfo.createdAt",
+      },
+    },
+  ]);
+  let docDetails = {};
+  if (dailyLiveGen && dailyLiveGen[0]) {
+    docDetails = dailyLiveGen[0];
+  }
+  const responseObj = {
+    date: dailyLiveGen[0].date,
+    createdAt: dailyLiveGen[0].createdAt,
+    updatedAt: dailyLiveGen[0].updatedAt,
+    lives: [...dailyLiveLives],
+  };
+  res.send(responseObj);
 });
 
 app.get("/", (req: Request, res: Response) => {
