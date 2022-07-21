@@ -34,7 +34,7 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
     { date: 1, createdAt: 1, updatedAt: 1 }
   ).catch((e) => console.error(e));
   const dailyLiveLives = await DailyLive.aggregate([
-    { $match: { date: currentDate } }, // you can give any condition here.
+    { $match: { date: currentDate } },
     { $unwind: "$date" },
     { $unwind: "$createdAt" },
     { $unwind: "$updatedAt" },
@@ -56,8 +56,8 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
         displayID: "$userInfo.displayID",
         userID: "$userInfo.userID",
         avatar: "$userInfo.avatar",
-        updatedAt: "$userInfo.updatedAt",
-        createdAt: "$userInfo.createdAt",
+        updatedAt: "$lives.updatedAt",
+        createdAt: "$lives.createdAt",
       },
     },
   ]);
