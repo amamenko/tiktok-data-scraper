@@ -17,17 +17,21 @@ export const scrapeTikTok = async () => {
   // Kill all leftover Puppeteer processes
   exec("pkill -9 -f puppeteer");
 
+  const browser = await puppeteer.launch({
+    args: [
+      "--disable-setuid-sandbox",
+      "--single-process",
+      "--no-sandbox",
+      "--no-zygote",
+      "--ignore-certificate-errors",
+    ],
+  });
   try {
-    const browser = await puppeteer.launch({
-      args: [
-        "--disable-setuid-sandbox",
-        "--single-process",
-        "--no-sandbox",
-        "--no-zygote",
-      ],
-    });
-
     const page = await browser.newPage();
+
+    // Configure the navigation timeout
+    page.setDefaultNavigationTimeout(0);
+
     page.on("requestfinished", async (request: HTTPRequest) => {
       const response = request.response();
       if (request.url().includes("get_live_anchor_list")) {
@@ -228,9 +232,10 @@ export const scrapeTikTok = async () => {
       await page.click(cssSelector).catch(() => {});
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
-
-    await browser.close();
   } catch (e) {
     console.error(`Received error durring Puppeteer process: ${e}`);
+  } finally {
+    // ALWAYS make sure Puppeteer closes the browser when finished - error or
+    await browser.close();
   }
 };
