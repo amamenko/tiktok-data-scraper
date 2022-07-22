@@ -24,16 +24,16 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Scrape Tik Tok stats every 10 minutes
-cron.schedule("*/10 * * * *", async () => {
-  scrapeTikTok();
-});
+// cron.schedule("*/10 * * * *", async () => {
+//   scrapeTikTok();
+// });
 
 // Backup script - make sure last scraping ran successfully
 // at minutes 3, 13, 23, 33, 43, and 53 past the hour.
 // Otherwise - try again
-cron.schedule("3,13,23,33,43,53 * * * *", async () => {
-  scrapingSuccessCheck();
-});
+// cron.schedule("3,13,23,33,43,53 * * * *", async () => {
+//   scrapingSuccessCheck();
+// });
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
   const currentDate = format(new Date(), "MM/dd/yyyy");

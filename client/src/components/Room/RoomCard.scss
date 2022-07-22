@@ -6,6 +6,7 @@
   height: 8rem;
   margin-top: 1rem;
   .room_user_container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +21,7 @@
       font-size: 0.6rem;
       font-weight: 700;
       margin: 0;
-      padding: 0 0 1rem 0;
+      padding: 1.5rem 0 0.5rem 0;
       @media only screen and (min-width: 768px) {
         font-size: 0.7rem;
       }
@@ -31,6 +32,25 @@
       width: 50px;
       height: 50px;
       border-radius: 50px;
+    }
+    .number_circle {
+      position: absolute;
+      top: 0.25rem;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid rgb(110, 110, 110);
+      border-radius: 50px;
+
+      p {
+        font-size: 0.55rem;
+        font-weight: 800;
+        margin: 0.3rem 0 0 0;
+        padding: 0;
+      }
     }
   }
 

@@ -6,9 +6,11 @@ import "./RoomCard.scss";
 export const RoomCard = ({
   live,
   totalDuration,
+  index,
 }: {
   live: LiveRoom;
   totalDuration: Duration;
+  index: number;
 }) => {
   const hours = totalDuration.hours;
   const minutes = totalDuration.minutes;
@@ -16,6 +18,9 @@ export const RoomCard = ({
   return (
     <div className="room_outer_container">
       <div className="room_user_container">
+        <span className="number_circle">
+          <p>{index + 1}</p>
+        </span>
         <p>{live.displayID}</p>
         <img src={live.avatar} alt={`${live.displayID} avatar`} />
       </div>

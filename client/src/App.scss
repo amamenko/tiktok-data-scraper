@@ -3,7 +3,6 @@
 }
 
 .rooms_container {
-  overflow-x: hidden;
   position: relative;
   width: 100%;
   max-width: 32rem;
@@ -20,6 +19,21 @@
 
     @media only screen and (min-width: 32rem) {
       outline: 1px solid #30363d;
+    }
+  }
+
+  .rooms_sort_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 1rem 0 1rem;
+    flex: 1;
+    .sort_select_container {
+      flex: 0.9;
+    }
+    p {
+      font-weight: 700;
     }
   }
 }
