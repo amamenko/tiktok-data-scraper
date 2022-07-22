@@ -159,6 +159,7 @@ const App = () => {
                   value: "most_recently_updated",
                   label: "Most recently updated",
                 }}
+                isSearchable={false}
               />
             </div>
             {liveData.lives.map((live, i) => {
