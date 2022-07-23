@@ -1,6 +1,7 @@
 import { Duration, format } from "date-fns";
 import { LiveRoom } from "../../interfaces/LiveRoom.interface";
 import { IoDiamond } from "react-icons/io5";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 import "./RoomCard.scss";
 
 export const RoomCard = ({
@@ -15,6 +16,9 @@ export const RoomCard = ({
   const hours = totalDuration.hours;
   const minutes = totalDuration.minutes;
   const seconds = totalDuration.seconds;
+  const totalRevenue = (Math.round(live.diamonds * 0.005 * 100) / 100).toFixed(
+    2
+  );
   return (
     <div className="room_outer_container">
       <div className="room_user_container">
@@ -25,8 +29,14 @@ export const RoomCard = ({
         <img src={live.avatar} alt={`${live.displayID} avatar`} />
       </div>
       <div className="diamonds_container">
-        <IoDiamond size={20} color={"rgb(150, 150, 150)"} />
-        <p className="diamonds_count">{live.diamonds}</p>
+        <div className="diamonds_inner_container">
+          <IoDiamond size={18} color={"rgb(150, 150, 150)"} />
+          <p className="diamonds_count">{live.diamonds.toLocaleString()}</p>
+        </div>
+        <div className="diamonds_inner_container">
+          <AiOutlineDollarCircle size={18} color={"rgb(150, 150, 150)"} />
+          <p className="diamonds_count cash">${totalRevenue}</p>
+        </div>
       </div>
       <div className="room_time_container">
         <div className="time_label">

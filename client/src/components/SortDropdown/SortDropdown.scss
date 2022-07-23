@@ -1,0 +1,16 @@
+.rooms_container {
+  .rooms_sort_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 1rem 0 1rem;
+    flex: 1;
+    .sort_select_container {
+      flex: 0.9;
+    }
+    p {
+      font-weight: 700;
+    }
+  }
+}
