@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import Select from "react-select";
+import { AppContext } from "../../App";
 import { handleSelectOptionChange } from "../../functions/handleSelectOptionChange";
 import { DailyLive } from "../../interfaces/DailyLive.interface";
 import "./SortDropdown.scss";
@@ -10,6 +12,7 @@ export const SortDropdown = ({
   liveData: DailyLive;
   changeLiveData: React.Dispatch<React.SetStateAction<DailyLive | null>>;
 }) => {
+  const { darkMode } = useContext(AppContext);
   const options = [
     { value: "most_diamonds", label: "Most diamonds" },
     { value: "least_diamonds", label: "Least diamonds" },
@@ -19,10 +22,11 @@ export const SortDropdown = ({
     { value: "shortest_duration", label: "Shortest duration" },
   ];
   return (
-    <div className="rooms_sort_container">
+    <div className={`rooms_sort_container ${darkMode ? "dark" : ""}`}>
       <p>Sort by:</p>
       <Select
-        className="sort_select_container"
+        className={`sort_select_container ${darkMode ? "dark" : ""}`}
+        classNamePrefix={`sort_select${darkMode ? "_dark" : ""}`}
         options={options}
         onChange={(newValue) =>
           handleSelectOptionChange(newValue, liveData, changeLiveData)

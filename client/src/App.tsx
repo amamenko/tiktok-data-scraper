@@ -7,6 +7,7 @@ import { Header } from "./components/Header/Header";
 import { SortDropdown } from "./components/SortDropdown/SortDropdown";
 import { ContextProps } from "./interfaces/ContextProps.interface";
 import { contextDefaults } from "./contextDefaults";
+import { ClipLoader } from "react-spinners";
 import "./App.scss";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
@@ -31,6 +32,14 @@ const App = () => {
       .catch((e) => console.error(e));
     return liveArr;
   };
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   // Look for color preference on app mount
   useEffect(() => {
@@ -92,7 +101,7 @@ const App = () => {
         {liveData && liveData.lives ? (
           <>
             <Header liveData={liveData} />
-            <div className="rooms_container">
+            <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
               <SortDropdown
                 liveData={liveData}
                 changeLiveData={changeLiveData}
@@ -101,7 +110,13 @@ const App = () => {
             </div>
           </>
         ) : (
-          <></>
+          <div className="loader_container">
+            <ClipLoader
+              color={darkMode ? "#fff" : "#000"}
+              loading={true}
+              size={150}
+            />
+          </div>
         )}
       </div>
     </AppContext.Provider>

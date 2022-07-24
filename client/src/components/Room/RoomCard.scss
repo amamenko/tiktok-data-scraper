@@ -15,6 +15,9 @@
     max-width: 6rem;
     height: 100%;
     background: rgb(235, 235, 235);
+    &.dark {
+      background: rgb(40, 40, 40);
+    }
     p {
       max-width: 4rem;
       word-wrap: break-word;
@@ -42,9 +45,13 @@
       width: 20px;
       height: 20px;
       background: #fff;
+      transition: background 0.4s ease, border-color 0.4s ease;
       border: 1px solid rgb(110, 110, 110);
       border-radius: 50px;
-
+      &.dark {
+        background: #000;
+        border: 1px solid #fff;
+      }
       p {
         font-size: 0.55rem;
         font-weight: 800;
@@ -81,6 +88,10 @@
       padding: 0;
       &.cash {
         color: rgb(34, 139, 34);
+
+        &.dark {
+          color: rgb(94, 199, 94);
+        }
       }
     }
   }
@@ -97,8 +108,12 @@
     line-height: 0;
     .time_label {
       background: rgb(235, 235, 235);
+      transition: background 0.4s ease;
       width: 100%;
       text-align: center;
+      &.dark {
+        background: rgb(40, 40, 40);
+      }
       h2 {
         font-size: 0.7rem;
       }

@@ -2,6 +2,8 @@ import { Duration, format } from "date-fns";
 import { LiveRoom } from "../../interfaces/LiveRoom.interface";
 import { IoDiamond } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 import "./RoomCard.scss";
 
 export const RoomCard = ({
@@ -13,6 +15,7 @@ export const RoomCard = ({
   totalDuration: Duration;
   index: number;
 }) => {
+  const { darkMode } = useContext(AppContext);
   const hours = totalDuration.hours;
   const minutes = totalDuration.minutes;
   const seconds = totalDuration.seconds;
@@ -21,8 +24,8 @@ export const RoomCard = ({
   );
   return (
     <div className="room_outer_container">
-      <div className="room_user_container">
-        <span className="number_circle">
+      <div className={`room_user_container ${darkMode ? "dark" : ""}`}>
+        <span className={`number_circle ${darkMode ? "dark" : ""}`}>
           <p>{index + 1}</p>
         </span>
         <p>{live.displayID}</p>
@@ -30,24 +33,32 @@ export const RoomCard = ({
       </div>
       <div className="diamonds_container">
         <div className="diamonds_inner_container">
-          <IoDiamond size={18} color={"rgb(150, 150, 150)"} />
+          <IoDiamond
+            size={18}
+            color={darkMode ? "rgb(225, 225, 225)" : "rgb(150, 150, 150)"}
+          />
           <p className="diamonds_count">{live.diamonds.toLocaleString()}</p>
         </div>
         <div className="diamonds_inner_container">
-          <AiOutlineDollarCircle size={18} color={"rgb(150, 150, 150)"} />
-          <p className="diamonds_count cash">${totalRevenue}</p>
+          <AiOutlineDollarCircle
+            size={18}
+            color={darkMode ? "rgb(225, 225, 225)" : "rgb(150, 150, 150)"}
+          />
+          <p className={`diamonds_count cash ${darkMode ? "dark" : ""}`}>
+            ${totalRevenue}
+          </p>
         </div>
       </div>
       <div className="room_time_container">
-        <div className="time_label">
+        <div className={`time_label ${darkMode ? "dark" : ""}`}>
           <h2>STARTED:</h2>
         </div>
         <p>{format(new Date(live.createdAt), "Pp")}</p>
-        <div className="time_label">
+        <div className={`time_label ${darkMode ? "dark" : ""}`}>
           <h2>UPDATED:</h2>
         </div>
         <p>{format(new Date(live.updatedAt), "Pp")}</p>
-        <div className="time_label">
+        <div className={`time_label ${darkMode ? "dark" : ""}`}>
           <h2>DURATION:</h2>
         </div>
         <p>

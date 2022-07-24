@@ -4,10 +4,46 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 1rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem;
     flex: 1;
+    background: #fff;
+    color: #000;
+    transition: background 0.4s ease, color 0.4s ease;
+    &.dark {
+      background: #161b22;
+      color: #fff;
+    }
     .sort_select_container {
       flex: 0.9;
+      &.dark {
+        div {
+          background: #0e1117;
+          color: #fff;
+        }
+      }
+      div {
+        background: #fff;
+        color: #000;
+      }
+      .sort_select_dark__menu {
+        border: 1px solid rgb(150, 150, 150);
+      }
+
+      @media only screen and (min-width: 768px) {
+        .sort_select__option--is-focused {
+          background: #deebff !important;
+          color: #fff !important;
+        }
+        .sort_select_dark__option--is-focused {
+          background: rgb(150, 165, 185) !important;
+        }
+      }
+
+      .sort_select_dark__option--is-selected,
+      .sort_select__option--is-selected {
+        background: #2684ff !important;
+        color: #fff !important;
+      }
     }
     p {
       font-weight: 700;
