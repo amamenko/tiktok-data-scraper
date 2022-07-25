@@ -9,6 +9,7 @@ export const Header = ({ liveData }: { liveData: DailyLive }) => {
   const { darkMode, changeDarkMode } = useContext(AppContext);
   const sumDiamonds = liveData.lives.reduce((a, b) => a + b.diamonds, 0);
   const totalRevenue = parseFloat((sumDiamonds * 0.005).toFixed(2));
+  const agentsRevenue = parseFloat((totalRevenue * 0.11).toFixed(2));
   const toggleDarkMode = () => changeDarkMode(!darkMode);
   return (
     <div className="app_header">
@@ -42,6 +43,13 @@ export const Header = ({ liveData }: { liveData: DailyLive }) => {
             Total revenue:
             <br />
             <span>${totalRevenue.toLocaleString()}</span>
+          </h2>
+        </div>
+        <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>
+          <h2>
+            Agent 11%:
+            <br />
+            <span>${agentsRevenue.toLocaleString()}</span>
           </h2>
         </div>
         <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>

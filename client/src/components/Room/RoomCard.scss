@@ -71,6 +71,7 @@
     min-width: 5rem;
     max-width: 5rem;
     border-right: 1px solid rgb(200, 200, 200);
+    border-left: 1px solid rgb(200, 200, 200);
     height: 100%;
     .diamonds_inner_container {
       margin-top: 0.3rem;
@@ -88,7 +89,6 @@
       padding: 0;
       &.cash {
         color: rgb(34, 139, 34);
-
         &.dark {
           color: rgb(94, 199, 94);
         }
