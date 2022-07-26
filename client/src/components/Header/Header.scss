@@ -3,7 +3,6 @@
   top: 0;
   z-index: 10;
   background: #fff;
-  overflow-x: hidden;
   .header_stats_outer_container {
     display: flex;
     .header_stats_container {
@@ -85,6 +84,101 @@
     margin: 0;
     &.dark {
       background: rgb(70, 70, 70);
+    }
+  }
+}
+
+.react-datepicker__tab-loop {
+  .react-datepicker-popper {
+    left: 0 !important;
+    justify-items: center;
+    width: fit-content;
+    width: 100%;
+    font-size: 2rem !important;
+  }
+
+  .react-datepicker__day {
+    &:not(.react-datepicker__day--disabled) {
+      &:hover {
+        background: rgb(100, 100, 100) !important;
+        color: #fff !important;
+      }
+
+      &.dark {
+        color: #fff !important;
+        &:hover {
+          background: #fff !important;
+          color: #000 !important;
+        }
+      }
+    }
+    &.react-datepicker__day--disabled {
+      color: rgb(235, 235, 235) !important;
+      &.dark {
+        color: rgb(50, 50, 50) !important;
+      }
+    }
+  }
+}
+
+.date_title {
+  .react-datepicker__input-container {
+    input {
+      caret-color: transparent;
+      padding: 5px 50px 5px 5px;
+      width: 120px !important;
+      font-size: 1.25rem !important;
+      font-weight: 700;
+      background-color: rgb(215, 215, 215);
+      border: none;
+      color: #000;
+      margin: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512 512' width='20' height='20' style='enable-background:new 0 0 512 512; fill: black;' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M435.532,59.844V0h-39.896v59.844H355.74V0h-39.896v59.844h-39.896V0h-39.896v59.844h-39.896V0H156.26v59.844h-39.896V0 H76.468v59.844H9.974V512h492.052V59.844H435.532z M462.13,472.104H49.87V192.831h412.26V472.104z M462.13,152.935H49.87V99.74 h412.26V152.935z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='355.74' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='355.74' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 95% 45%;
+    }
+  }
+  &.dark {
+    .react-datepicker__input-container {
+      input {
+        color: #fff;
+        background-color: rgb(50, 50, 50);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512 512' width='20' height='20' style='enable-background:new 0 0 512 512; fill: white;' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M435.532,59.844V0h-39.896v59.844H355.74V0h-39.896v59.844h-39.896V0h-39.896v59.844h-39.896V0H156.26v59.844h-39.896V0 H76.468v59.844H9.974V512h492.052V59.844H435.532z M462.13,472.104H49.87V192.831h412.26V472.104z M462.13,152.935H49.87V99.74 h412.26V152.935z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='116.364' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='196.156' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='275.948' y='392.312' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='355.74' y='232.727' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Crect x='355.74' y='312.519' width='39.896' height='39.896'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+      }
+    }
+  }
+}
+
+.datepicker {
+  .react-datepicker__navigation {
+    background: rgb(100, 100, 100) !important;
+    .react-datepicker__navigation-icon::before {
+      border-color: #fff !important;
+    }
+  }
+  &.dark {
+    .react-datepicker__navigation {
+      background: rgb(50, 50, 50) !important;
+      .react-datepicker__navigation-icon::before {
+        border-color: #fff !important;
+      }
+    }
+    .react-datepicker__navigation-icon,
+    .react-datepicker__navigation-icon--previous {
+      color: #000 !important;
+    }
+    .react-datepicker__triangle::after {
+      border-bottom-color: rgb(200, 200, 200);
+    }
+    .react-datepicker__month-container {
+      background: rgb(25, 25, 25);
+      .react-datepicker__header {
+        background: rgb(200, 200, 200);
+      }
+      .react-datepicker__current-month,
+      .react-datepicker__day-name {
+        color: #000;
+      }
     }
   }
 }

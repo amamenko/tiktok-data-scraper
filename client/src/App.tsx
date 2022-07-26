@@ -14,6 +14,7 @@ export const AppContext = createContext<ContextProps>(contextDefaults);
 
 const App = () => {
   const [liveData, changeLiveData] = useState<DailyLive | null>(null);
+  const [dataLoading, changeDataLoading] = useState(false);
   const [darkMode, changeDarkMode] = useState(true);
 
   const getDailyLiveData = async () => {
@@ -28,8 +29,14 @@ const App = () => {
           : "http://localhost:4000/api/daily_live"
       )
       .then((res) => res.data)
-      .then((data) => data)
-      .catch((e) => console.error(e));
+      .then((data) => {
+        changeDataLoading(false);
+        return data;
+      })
+      .catch((e) => {
+        changeDataLoading(false);
+        console.error(e);
+      });
     return liveArr;
   };
 
@@ -73,6 +80,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      changeDataLoading(true);
       const liveData = await getDailyLiveData();
       if (liveData) {
         const liveDataObj = liveData;
@@ -93,14 +101,18 @@ const App = () => {
   return (
     <AppContext.Provider
       value={{
+        liveData,
+        changeLiveData,
+        dataLoading,
+        changeDataLoading,
         darkMode,
         changeDarkMode,
       }}
     >
       <div className="App">
-        {liveData && liveData.lives ? (
+        <Header />
+        {!dataLoading && liveData && liveData.lives ? (
           <>
-            <Header liveData={liveData} />
             <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
               <SortDropdown
                 liveData={liveData}

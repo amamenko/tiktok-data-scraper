@@ -36,7 +36,8 @@ cron.schedule("3,13,23,33,43,53 * * * *", async () => {
 });
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
-  const currentDate = format(new Date(), "MM/dd/yyyy");
+  const queryDate: string = req.query.date ? req.query.date.toString() : "";
+  const currentDate = queryDate ? queryDate : format(new Date(), "MM/dd/yyyy");
   const dailyLiveGen = await DailyLive.find(
     { date: currentDate },
     { date: 1, createdAt: 1, updatedAt: 1 }
