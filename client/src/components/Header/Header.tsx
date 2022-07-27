@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { addMinutes, format } from "date-fns";
 import { useContext, useState } from "react";
 import { AppContext } from "../../App";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
@@ -16,7 +16,9 @@ export const Header = () => {
     darkMode,
     changeDarkMode,
   } = useContext(AppContext);
-  const [startDate, setStartDate] = useState(new Date());
+  const maxDate = addMinutes(new Date(), new Date().getTimezoneOffset());
+  const [startDate, setStartDate] = useState(maxDate);
+  const [datePickerOpen, changeDatePickerOpen] = useState(false);
   const sumDiamonds = liveData
     ? liveData.lives.reduce((a, b) => a + b.diamonds, 0)
     : 0;
@@ -25,49 +27,56 @@ export const Header = () => {
   const toggleDarkMode = () => changeDarkMode(!darkMode);
 
   const handleDatePickerChange = async (date: Date) => {
-    setStartDate(date);
-    changeDataLoading(true);
-    const nodeEnv = process.env.REACT_APP_NODE_ENV
-      ? process.env.REACT_APP_NODE_ENV
-      : "";
-    const formattedDate = format(date, "MM/dd/yyyy");
+    if (date.toISOString() !== startDate.toISOString()) {
+      setStartDate(date);
+      changeDataLoading(true);
+      const nodeEnv = process.env.REACT_APP_NODE_ENV
+        ? process.env.REACT_APP_NODE_ENV
+        : "";
+      const formattedDate = format(date, "MM/dd/yyyy");
 
-    const liveArr = await axios
-      .get(
-        nodeEnv && nodeEnv === "production"
-          ? `${process.env.REACT_APP_PROD_SERVER}/api/daily_live`
-          : "http://localhost:4000/api/daily_live",
-        { params: { date: formattedDate } }
-      )
-      .then((res) => res.data)
-      .then((data) => {
-        changeDataLoading(false);
-        return data;
-      })
-      .catch((e) => {
-        changeDataLoading(false);
-        console.error(e);
-      });
-    if (liveArr) {
-      const liveDataObj = liveArr;
-      let liveDataLivesArr = liveDataObj.lives;
-      liveDataLivesArr = liveDataLivesArr.filter(
-        (live: LiveRoom) => live.createdAt !== live.updatedAt
-      );
-      liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
-        a.updatedAt > b.updatedAt ? -1 : 1
-      );
-      liveDataObj.lives = liveDataLivesArr;
-      changeLiveData(liveDataObj);
+      const liveArr = await axios
+        .get(
+          nodeEnv && nodeEnv === "production"
+            ? `${process.env.REACT_APP_PROD_SERVER}/api/daily_live`
+            : "http://localhost:4000/api/daily_live",
+          { params: { date: formattedDate } }
+        )
+        .then((res) => res.data)
+        .then((data) => {
+          changeDataLoading(false);
+          return data;
+        })
+        .catch((e) => {
+          changeDataLoading(false);
+          console.error(e);
+        });
+      if (liveArr) {
+        const liveDataObj = liveArr;
+        let liveDataLivesArr = liveDataObj.lives;
+        liveDataLivesArr = liveDataLivesArr.filter(
+          (live: LiveRoom) => live.createdAt !== live.updatedAt
+        );
+        liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
+          a.updatedAt > b.updatedAt ? -1 : 1
+        );
+        liveDataObj.lives = liveDataLivesArr;
+        changeLiveData(liveDataObj);
+      }
     }
+  };
+
+  const toggleDatePickerOpen = () => {
+    changeDatePickerOpen(!datePickerOpen);
   };
 
   return (
     <div className="app_header">
       <div className="header_stats_outer_container">
         <div className="header_stats_container title">
-          <h2 className={`date_title ${darkMode ? "dark" : ""}`}>
+          <div className={`date_title ${darkMode ? "dark" : ""}`}>
             <DatePicker
+              open={datePickerOpen}
               selected={startDate}
               onChange={handleDatePickerChange}
               calendarClassName={`datepicker ${darkMode ? "dark" : ""}`}
@@ -77,10 +86,14 @@ export const Header = () => {
                 return false;
               }}
               minDate={new Date(2022, 6, 19)}
-              maxDate={new Date()}
+              maxDate={maxDate}
               shouldCloseOnSelect={true}
+              readOnly={true}
+              onInputClick={toggleDatePickerOpen}
+              onSelect={toggleDatePickerOpen}
+              onClickOutside={toggleDatePickerOpen}
             />
-          </h2>
+          </div>
           {darkMode ? (
             <FaRegMoon
               className="moon_icon"
