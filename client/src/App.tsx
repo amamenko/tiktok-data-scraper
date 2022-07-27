@@ -9,6 +9,7 @@ import { ContextProps } from "./interfaces/ContextProps.interface";
 import { contextDefaults } from "./contextDefaults";
 import { ClipLoader } from "react-spinners";
 import "./App.scss";
+import { Trends } from "./components/Trends/Trends";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
 
@@ -16,7 +17,6 @@ const App = () => {
   const [liveData, changeLiveData] = useState<DailyLive | null>(null);
   const [dataLoading, changeDataLoading] = useState(false);
   const [darkMode, changeDarkMode] = useState(true);
-
   const getDailyLiveData = async () => {
     const nodeEnv = process.env.REACT_APP_NODE_ENV
       ? process.env.REACT_APP_NODE_ENV
@@ -85,9 +85,9 @@ const App = () => {
       if (liveData) {
         const liveDataObj = liveData;
         let liveDataLivesArr = liveDataObj.lives;
-        liveDataLivesArr = liveDataLivesArr.filter(
-          (live: LiveRoom) => live.createdAt !== live.updatedAt
-        );
+        // liveDataLivesArr = liveDataLivesArr.filter(
+        //   (live: LiveRoom) => live.createdAt !== live.updatedAt
+        // );
         liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
           a.updatedAt > b.updatedAt ? -1 : 1
         );
@@ -114,6 +114,9 @@ const App = () => {
         {!dataLoading && liveData && liveData.lives ? (
           <>
             <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
+              {liveData.diamondTrends && liveData.diamondTrends.length > 0 && (
+                <Trends />
+              )}
               <SortDropdown
                 liveData={liveData}
                 changeLiveData={changeLiveData}

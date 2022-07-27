@@ -11,18 +11,11 @@ export const RoomResults = ({ liveData }: { liveData: DailyLive }) => {
           start: new Date(live.createdAt),
           end: new Date(live.updatedAt),
         });
-        const hours = totalDuration.hours;
-        const minutes = totalDuration.minutes;
-        const seconds = totalDuration.seconds;
-        if (hours === 0 && minutes === 0 && seconds === 0) {
-          return <></>;
-        } else {
-          return (
-            <React.Fragment key={i}>
-              <RoomCard live={live} totalDuration={totalDuration} index={i} />
-            </React.Fragment>
-          );
-        }
+        return (
+          <React.Fragment key={i}>
+            <RoomCard live={live} totalDuration={totalDuration} index={i} />
+          </React.Fragment>
+        );
       })}
     </>
   );

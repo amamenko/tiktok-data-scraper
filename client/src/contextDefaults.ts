@@ -3,6 +3,7 @@ export const contextDefaults = {
   changeDataLoading: () => {},
   liveData: {
     lives: [],
+    diamondTrends: undefined,
     date: "",
     createdAt: "",
     updatedAt: "",
