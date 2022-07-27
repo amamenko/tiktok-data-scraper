@@ -23,7 +23,10 @@ export const Header = () => {
     ? liveData.lives.reduce((a, b) => a + b.diamonds, 0)
     : 0;
   const totalRevenue = parseFloat((sumDiamonds * 0.005).toFixed(2));
-  const agentsRevenue = parseFloat((totalRevenue * 0.11).toFixed(2));
+  const agentsRevenue = Intl.NumberFormat(navigator.language, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(parseFloat((sumDiamonds * 0.0011).toFixed(2)));
   const toggleDarkMode = () => changeDarkMode(!darkMode);
 
   const handleDatePickerChange = async (date: Date) => {

@@ -84,6 +84,7 @@ export const scrapeTikTok = async () => {
                 // Current date live document doesn't exist - create one
                 await DailyLive.create({
                   date: today,
+                  diamondTrends: [],
                   paths: [],
                 }).catch((e) => console.error(e));
               }
@@ -175,7 +176,21 @@ export const scrapeTikTok = async () => {
                 }
               }
               const liveDateFilter = { date: today };
-              const liveDataUpdate = { date: today, lives: liveDataArr };
+              const diamondTrends = oldLiveData[0]
+                ? oldLiveData[0].diamondTrends
+                : [];
+              const currentHourIndex = new Date().getHours();
+              if (!diamondTrends[currentHourIndex]) {
+                diamondTrends[currentHourIndex] = liveDataArr.reduce(
+                  (a, b: Live) => a + Number(b.diamonds),
+                  0
+                );
+              }
+              const liveDataUpdate = {
+                date: today,
+                diamondTrends,
+                lives: liveDataArr,
+              };
               // Update live data
               await DailyLive.findOneAndUpdate(liveDateFilter, liveDataUpdate);
               console.log(
