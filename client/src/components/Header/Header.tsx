@@ -57,9 +57,6 @@ export const Header = () => {
       if (liveArr) {
         const liveDataObj = liveArr;
         let liveDataLivesArr = liveDataObj.lives;
-        liveDataLivesArr = liveDataLivesArr.filter(
-          (live: LiveRoom) => live.createdAt !== live.updatedAt
-        );
         liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
           a.updatedAt > b.updatedAt ? -1 : 1
         );
