@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AppContext } from "../../App";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
 import { SelectDate } from "./SelectDate";
+import { HeaderSection } from "./HeaderSection";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Header.scss";
 
@@ -35,33 +36,22 @@ export const Header = () => {
         </div>
       </div>
       <div className="header_stats_outer_container">
-        <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>
-          <h2>
-            Total diamonds:
-            <br />
-            <span>{sumDiamonds.toLocaleString()}</span>
-          </h2>
-        </div>
-        <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>
-          <h2>
-            Total revenue:
-            <br />
-            <span>${totalRevenue.toLocaleString()}</span>
-          </h2>
-        </div>
-        <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>
-          <h2>
-            Agent 11%:
-            <br />
-            <span>${agentsRevenue.toLocaleString()}</span>
-          </h2>
-        </div>
-        <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>
-          <h2>
-            Total rooms: <br />
-            <span>{liveData ? liveData.lives.length : 0}</span>
-          </h2>
-        </div>
+        <HeaderSection
+          title={"Total Diamonds:"}
+          data={sumDiamonds.toLocaleString()}
+        />
+        <HeaderSection
+          title={"Total Revenue:"}
+          data={`$${totalRevenue.toLocaleString()}`}
+        />
+        <HeaderSection
+          title={"Agent 11%:"}
+          data={`$${agentsRevenue.toLocaleString()}`}
+        />
+        <HeaderSection
+          title={"Total rooms:"}
+          data={liveData ? liveData.lives.length.toString() : "0"}
+        />
       </div>
       <h2 className={`stats_last_updated ${darkMode ? "dark" : ""}`}>
         Last updated:{" "}
