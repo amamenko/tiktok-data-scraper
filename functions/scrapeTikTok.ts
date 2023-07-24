@@ -212,7 +212,7 @@ export const scrapeTikTok = async () => {
     });
 
     await page.goto("https://live-backstage.tiktok.com/login?loginType=email", {
-      waitUntil: "domcontentloaded",
+      waitUntil: "networkidle2",
     });
 
     await waitForTimeout(5000);
@@ -236,7 +236,7 @@ export const scrapeTikTok = async () => {
     await waitForTimeout(10000);
 
     await page.goto("https://live-backstage.tiktok.com/portal/anchor/live", {
-      waitUntil: "domcontentloaded",
+      waitUntil: "networkidle2",
     });
 
     await waitForTimeout(10000);
