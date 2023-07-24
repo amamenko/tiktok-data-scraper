@@ -14,8 +14,8 @@ export const scrapingSuccessCheck = async () => {
     };
     const updatedAt = mostRecentLiveRecord.updatedAt;
     const difference = differenceInMinutes(new Date(), new Date(updatedAt));
-    // Lives document hasn't been updated in the last 5 minutes - try scraping again
-    if (difference > 5) scrapeTikTok();
+    // Lives document hasn't been updated in the last 7 minutes - try scraping again
+    if (difference > 7) scrapeTikTok();
   } else {
     scrapeTikTok();
   }
