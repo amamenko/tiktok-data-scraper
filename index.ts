@@ -7,7 +7,6 @@ import enforce from "express-sslify";
 import { scrapeTikTok } from "./functions/scrapeTikTok";
 import { DailyLive } from "./models/DailyLive";
 import { format } from "date-fns";
-import { scrapingSuccessCheck } from "./functions/scrapingSuccessCheck";
 
 const app = express();
 
@@ -26,13 +25,6 @@ if (process.env.NODE_ENV === "production") {
 // Scrape Tik Tok stats every 10 minutes
 cron.schedule("*/10 * * * *", async () => {
   scrapeTikTok();
-});
-
-// Backup script - make sure last scraping ran successfully
-// at minutes 5,15,25,35,45, and 55 past the hour.
-// Otherwise - try again
-cron.schedule("5,15,25,35,45,55 * * * *", async () => {
-  scrapingSuccessCheck();
 });
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
