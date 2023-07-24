@@ -8,8 +8,8 @@ import { SortDropdown } from "./components/SortDropdown/SortDropdown";
 import { ContextProps } from "./interfaces/ContextProps.interface";
 import { contextDefaults } from "./contextDefaults";
 import { ClipLoader } from "react-spinners";
-import "./App.scss";
 import { Trends } from "./components/Trends/Trends";
+import "./App.scss";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
 

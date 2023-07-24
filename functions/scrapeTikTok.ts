@@ -7,6 +7,7 @@ import { format, subDays } from "date-fns";
 import { DailyLive } from "../models/DailyLive";
 import { Live } from "../interfaces/live.interface";
 import { User } from "../models/User";
+import { executablePath } from "puppeteer";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -25,6 +26,11 @@ export const scrapeTikTok = async () => {
       "--no-zygote",
       "--ignore-certificate-errors",
     ],
+    headless: "new",
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : executablePath(),
   });
   try {
     const page = await browser.newPage();
