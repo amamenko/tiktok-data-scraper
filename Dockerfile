@@ -8,4 +8,4 @@ WORKDIR /usr/src/app
 COPY package*.json ./ 
 RUN npm ci --omit=dev
 COPY . . 
-CMD [ "npm", "startProd" ]
+CMD [ "npm", "run", "startProd" ]
