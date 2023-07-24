@@ -21,7 +21,6 @@ export const scrapeTikTok = async () => {
   const browser = await puppeteer.launch({
     args: [
       "--disable-setuid-sandbox",
-      "--single-process",
       "--no-sandbox",
       "--no-zygote",
       "--ignore-certificate-errors",
