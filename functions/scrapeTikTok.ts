@@ -8,6 +8,7 @@ import { DailyLive } from "../models/DailyLive";
 import { Live } from "../interfaces/live.interface";
 import { User } from "../models/User";
 import { executablePath } from "puppeteer";
+import { waitForTimeout } from "./waitForTimeout";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -15,6 +16,7 @@ stealth.enabledEvasions.delete("user-agent-override");
 puppeteer.use(stealth);
 
 export const scrapeTikTok = async () => {
+  console.log("Attempting to scrape Tik Tok data!");
   // Kill all leftover Puppeteer processes
   exec("pkill -9 -f puppeteer");
 
@@ -210,10 +212,10 @@ export const scrapeTikTok = async () => {
     });
 
     await page.goto("https://live-backstage.tiktok.com/login?loginType=email", {
-      waitUntil: "networkidle2",
+      waitUntil: "domcontentloaded",
     });
 
-    await page.waitForTimeout(5000);
+    await waitForTimeout(5000);
 
     try {
       await page.click("button.semi-button-secondary");
@@ -231,18 +233,20 @@ export const scrapeTikTok = async () => {
       console.error("No log in button found!");
     }
 
-    await page.waitForTimeout(10000);
+    await waitForTimeout(10000);
 
     await page.goto("https://live-backstage.tiktok.com/portal/anchor/live", {
-      waitUntil: "networkidle2",
+      waitUntil: "domcontentloaded",
     });
 
-    await page.waitForTimeout(10000);
+    await waitForTimeout(10000);
+
+    console.log("Successfully logged in!");
 
     // Keep clicking next button until it is disabled to trigger all paginated requests
     const isElementVisible = async (page: Page, cssSelector: string) => {
       let visible = true;
-      await page.waitForTimeout(5000);
+      await waitForTimeout(5000);
       await page
         .waitForSelector(cssSelector, { visible: true, timeout: 10000 })
         .catch(() => {
@@ -253,6 +257,7 @@ export const scrapeTikTok = async () => {
     const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
     let loadMoreVisible = await isElementVisible(page, cssSelector);
     while (loadMoreVisible) {
+      console.log("Load more is visible! Loading more live data...");
       await page.click(cssSelector).catch(() => {});
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
