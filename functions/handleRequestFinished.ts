@@ -3,13 +3,20 @@ import { format, subDays } from "date-fns";
 import { DailyLive } from "../models/DailyLive";
 import { Live } from "../interfaces/live.interface";
 import { User } from "../models/User";
+import { logger } from "../logger/logger";
 
 export const handleRequestFinished = async (request: HTTPRequest) => {
   try {
     const response = request.response();
     if (request.url().includes("get_live_anchor_list")) {
       const data = await response.json();
-      console.log(`Total lives right now: ${data?.data?.inLiveAmount || 0}.`);
+      if (process.env.NODE_ENV === "production") {
+        logger("server").info(
+          `Total lives right now: ${data?.data?.inLiveAmount || 0}.`
+        );
+      } else {
+        console.log(`Total lives right now: ${data?.data?.inLiveAmount || 0}.`);
+      }
       if (data && data.data && data.data.inLiveAmount) {
         const individualInfos = data.data.liveAnchorInfos;
         if (
@@ -40,7 +47,13 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
           // First compare to yesterday's previous live data just in case to check for still streaming lives
           const yesterdayOldLiveData = await DailyLive.find({
             date: yesterday,
-          }).catch((e) => console.error(e));
+          }).catch((e) => {
+            if (process.env.NODE_ENV === "production") {
+              logger("server").error(e);
+            } else {
+              console.error(e);
+            }
+          });
           const yesterdayLiveDataArr: Live[] = yesterdayOldLiveData[0]
             ? yesterdayOldLiveData[0].lives
             : [];
@@ -51,14 +64,26 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
           // Compare to today's previous live data
           const oldLiveData = await DailyLive.find({
             date: today,
-          }).catch((e) => console.error(e));
+          }).catch((e) => {
+            if (process.env.NODE_ENV === "production") {
+              logger("server").error(e);
+            } else {
+              console.error(e);
+            }
+          });
           if (!oldLiveData[0]) {
             // Current date live document doesn't exist - create one
             await DailyLive.create({
               date: today,
               diamondTrends: [],
               paths: [],
-            }).catch((e) => console.error(e));
+            }).catch((e) => {
+              if (process.env.NODE_ENV === "production") {
+                logger("server").error(e);
+              } else {
+                console.error(e);
+              }
+            });
           }
           const liveDataArr: Live[] = oldLiveData[0]
             ? oldLiveData[0].lives
@@ -69,7 +94,13 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
               userID: live.user.userID,
             };
             const matchingUser = await User.find(matchingUserFilter).catch(
-              (e) => console.error(e)
+              (e) => {
+                if (process.env.NODE_ENV === "production") {
+                  logger("server").error(e);
+                } else {
+                  console.error(e);
+                }
+              }
             );
             if (matchingUser[0]) {
               // User already exists in DB
@@ -84,7 +115,13 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
               }
             } else {
               // User doesn't exist in DB - add new user
-              await User.create(live.user).catch((e) => console.error(e));
+              await User.create(live.user).catch((e) => {
+                if (process.env.NODE_ENV === "production") {
+                  logger("server").error(e);
+                } else {
+                  console.error(e);
+                }
+              });
             }
 
             const handleYesterdayMatch = () => {
@@ -165,13 +202,23 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
           };
           // Update live data
           await DailyLive.findOneAndUpdate(liveDateFilter, liveDataUpdate);
-          console.log(
-            `Successfully updated ${today} lives at ${fullTimeDate}!`
-          );
+          if (process.env.NODE_ENV === "production") {
+            logger("server").info(
+              `Successfully updated ${today} lives at ${fullTimeDate}!`
+            );
+          } else {
+            console.log(
+              `Successfully updated ${today} lives at ${fullTimeDate}!`
+            );
+          }
         }
       }
     }
   } catch (e) {
-    console.error(e);
+    if (process.env.NODE_ENV === "production") {
+      logger("server").error(e);
+    } else {
+      console.error(e);
+    }
   }
 };

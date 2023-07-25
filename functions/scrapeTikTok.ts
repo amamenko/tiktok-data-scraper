@@ -6,6 +6,7 @@ import { HTTPRequest, Page } from "puppeteer";
 import { executablePath } from "puppeteer";
 import { waitForTimeout } from "./waitForTimeout";
 import { handleRequestFinished } from "./handleRequestFinished";
+import { logger } from "../logger/logger";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -13,7 +14,11 @@ stealth.enabledEvasions.delete("user-agent-override");
 puppeteer.use(stealth);
 
 export const scrapeTikTok = async () => {
-  console.log("Attempting to scrape Tik Tok data!");
+  if (process.env.NODE_ENV === "production") {
+    logger("server").info("Attempting to scrape Tik Tok data!");
+  } else {
+    console.log("Attempting to scrape Tik Tok data!");
+  }
   // Kill all leftover Puppeteer processes
   exec("pkill -9 -f puppeteer");
 
@@ -49,7 +54,11 @@ export const scrapeTikTok = async () => {
     try {
       await page.click("button.semi-button-secondary");
     } catch (e) {
-      console.error("No log in button found!");
+      if (process.env.NODE_ENV === "production") {
+        logger("server").error("No log in button found!");
+      } else {
+        console.error("No log in button found!");
+      }
     }
 
     await page.focus('input[placeholder="Enter email address"]');
@@ -59,7 +68,11 @@ export const scrapeTikTok = async () => {
     try {
       await page.click("button.semi-button-tertiary.semi-button-size-large");
     } catch (e) {
-      console.error("No log in button found!");
+      if (process.env.NODE_ENV === "production") {
+        logger("server").error("No log in button found!");
+      } else {
+        console.error("No log in button found!");
+      }
     }
 
     await waitForTimeout(10000);
@@ -70,7 +83,11 @@ export const scrapeTikTok = async () => {
 
     await waitForTimeout(10000);
 
-    console.log("Successfully logged in!");
+    if (process.env.NODE_ENV === "production") {
+      logger("server").info("Successfully logged in!");
+    } else {
+      console.log("Successfully logged in!");
+    }
 
     // Keep clicking next button until it is disabled to trigger all paginated requests
     const isElementVisible = async (page: Page, cssSelector: string) => {
@@ -86,15 +103,29 @@ export const scrapeTikTok = async () => {
     const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
     let loadMoreVisible = await isElementVisible(page, cssSelector);
     while (loadMoreVisible) {
-      console.log("Load more is visible! Loading more live data...");
+      if (process.env.NODE_ENV === "production") {
+        logger("server").info(
+          "Load more is visible! Loading more live data..."
+        );
+      } else {
+        console.log("Load more is visible! Loading more live data...");
+      }
       await page.click(cssSelector).catch(() => {});
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
   } catch (e) {
-    console.error(`Received error during Puppeteer process: ${e}`);
+    if (process.env.NODE_ENV === "production") {
+      logger("server").error(`Received error during Puppeteer process: ${e}`);
+    } else {
+      console.error(`Received error during Puppeteer process: ${e}`);
+    }
   } finally {
     // ALWAYS make sure Puppeteer closes the browser when finished regardless of success or error
     await browser.close();
-    console.log("Scraping complete. Browser closed.");
+    if (process.env.NODE_ENV === "production") {
+      logger("server").info("Scraping complete. Browser closed.");
+    } else {
+      console.log("Scraping complete. Browser closed.");
+    }
   }
 };

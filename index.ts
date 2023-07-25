@@ -7,6 +7,7 @@ import enforce from "express-sslify";
 import { scrapeTikTok } from "./functions/scrapeTikTok";
 import { DailyLive } from "./models/DailyLive";
 import { format } from "date-fns";
+import { logger } from "./logger/logger";
 
 const app = express();
 
@@ -23,9 +24,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Scrape Tik Tok stats every 10 minutes
-cron.schedule("*/10 * * * *", async () => {
-  scrapeTikTok();
-});
+// cron.schedule("*/10 * * * *", async () => {
+//   scrapeTikTok();
+// });
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
   const queryDate: string = req.query.date ? req.query.date.toString() : "";
@@ -33,7 +34,13 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
   const dailyLiveGen = await DailyLive.find(
     { date: currentDate },
     { date: 1, diamondTrends: 1, createdAt: 1, updatedAt: 1 }
-  ).catch((e) => console.error(e));
+  ).catch((e) => {
+    if (process.env.NODE_ENV === "production") {
+      logger("server").error(e);
+    } else {
+      console.error(e);
+    }
+  });
   const dailyLiveLives = await DailyLive.aggregate([
     { $match: { date: currentDate } },
     { $unwind: "$date" },
@@ -86,10 +93,24 @@ mongoose
     `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_CLUSTER}.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`
   )
   .then(() => {
-    console.log("Connected to MongoDB");
+    if (process.env.NODE_ENV === "production") {
+      logger("server").info("Connected to MongoDB");
+    } else {
+      console.log("Connected to MongoDB");
+    }
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    if (process.env.NODE_ENV === "production") {
+      logger("server").error(err);
+    } else {
+      console.error(err);
+    }
+  });
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}...`);
+  if (process.env.NODE_ENV === "production") {
+    logger("server").info(`Listening on port ${port}...`);
+  } else {
+    console.log(`Listening on port ${port}...`);
+  }
 });
