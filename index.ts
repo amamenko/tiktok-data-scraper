@@ -24,9 +24,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Scrape Tik Tok stats every 10 minutes
-// cron.schedule("*/10 * * * *", async () => {
-//   scrapeTikTok();
-// });
+cron.schedule("*/10 * * * *", async () => {
+  scrapeTikTok();
+});
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
   const queryDate: string = req.query.date ? req.query.date.toString() : "";
