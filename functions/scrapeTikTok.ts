@@ -44,6 +44,11 @@ export const scrapeTikTok = async () => {
   try {
     const page = await browser.newPage();
 
+    await page.setViewport({
+      width: 1920,
+      height: 1080,
+    });
+
     // Configure the navigation timeout
     page.setDefaultNavigationTimeout(0);
 
@@ -85,6 +90,16 @@ export const scrapeTikTok = async () => {
       } else {
         console.error("No log in button found!");
       }
+    }
+
+    const viewportStatement = `The current Puppeteer viewport is ${
+      page.viewport().width
+    } x ${page.viewport().height}`;
+
+    if (process.env.NODE_ENV === "production") {
+      logger("server").info(viewportStatement);
+    } else {
+      console.log(viewportStatement);
     }
 
     await waitForTimeout(10000);
