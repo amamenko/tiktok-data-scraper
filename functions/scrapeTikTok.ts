@@ -92,16 +92,6 @@ export const scrapeTikTok = async () => {
       }
     }
 
-    const viewportStatement = `The current Puppeteer viewport is ${
-      page.viewport().width
-    } x ${page.viewport().height}`;
-
-    if (process.env.NODE_ENV === "production") {
-      logger("server").info(viewportStatement);
-    } else {
-      console.log(viewportStatement);
-    }
-
     await waitForTimeout(10000);
 
     await page.goto("https://live-backstage.tiktok.com/portal/anchor/live", {
