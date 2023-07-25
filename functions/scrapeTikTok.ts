@@ -108,13 +108,8 @@ export const scrapeTikTok = async () => {
     };
     const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
     let loadMoreVisible = await isElementVisible(page, cssSelector);
-    let num = 0;
     while (loadMoreVisible) {
-      num++;
       await page.click(cssSelector).catch(() => {});
-      await page.screenshot({
-        path: `screenshot${num}.jpg`,
-      });
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
   } catch (e) {
