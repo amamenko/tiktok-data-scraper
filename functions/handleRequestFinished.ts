@@ -5,18 +5,15 @@ import { Live } from "../interfaces/live.interface";
 import { User } from "../models/User";
 import { logger } from "../logger/logger";
 
-export const handleRequestFinished = async (request: HTTPRequest) => {
+export const handleRequestFinished = async (
+  request: HTTPRequest,
+  previouslyModifiedLives: number
+) => {
   try {
     const response = request.response();
     if (request.url().includes("get_live_anchor_list")) {
       const data = await response.json();
-      if (process.env.NODE_ENV === "production") {
-        logger("server").info(
-          `Total lives right now: ${data?.data?.inLiveAmount || 0}.`
-        );
-      } else {
-        console.log(`Total lives right now: ${data?.data?.inLiveAmount || 0}.`);
-      }
+      const totalLives = data?.data?.inLiveAmount || 0;
       if (data && data.data && data.data.inLiveAmount) {
         const individualInfos = data.data.liveAnchorInfos;
         if (
@@ -44,6 +41,8 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
               diamonds: totalDiamonds,
             };
           });
+          const updatedLivesNumber =
+            previouslyModifiedLives + allLiveResults.length;
           // First compare to yesterday's previous live data just in case to check for still streaming lives
           const yesterdayOldLiveData = await DailyLive.find({
             date: yesterday,
@@ -202,15 +201,15 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
           };
           // Update live data
           await DailyLive.findOneAndUpdate(liveDateFilter, liveDataUpdate);
+          const successStatement = `Successfully updated ${
+            updatedLivesNumber - allLiveResults.length + 1
+          }-${updatedLivesNumber} out of ${totalLives} lives at ${fullTimeDate}!`;
           if (process.env.NODE_ENV === "production") {
-            logger("server").info(
-              `Successfully updated ${today} lives at ${fullTimeDate}!`
-            );
+            logger("server").info(successStatement);
           } else {
-            console.log(
-              `Successfully updated ${today} lives at ${fullTimeDate}!`
-            );
+            console.log(successStatement);
           }
+          return allLiveResults.length;
         }
       }
     }
@@ -220,5 +219,6 @@ export const handleRequestFinished = async (request: HTTPRequest) => {
     } else {
       console.error(e);
     }
+    return previouslyModifiedLives;
   }
 };

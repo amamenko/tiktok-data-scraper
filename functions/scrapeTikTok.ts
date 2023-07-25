@@ -14,10 +14,11 @@ stealth.enabledEvasions.delete("user-agent-override");
 puppeteer.use(stealth);
 
 export const scrapeTikTok = async () => {
+  const scrapingStatement = `♪ Now scraping Tik Tok data! ♪`;
   if (process.env.NODE_ENV === "production") {
-    logger("server").info("Attempting to scrape Tik Tok data!");
+    logger("server").info(scrapingStatement);
   } else {
-    console.log("Attempting to scrape Tik Tok data!");
+    console.log(scrapingStatement);
   }
   // Kill all leftover Puppeteer processes
   exec("pkill -9 -f puppeteer");
@@ -28,7 +29,12 @@ export const scrapeTikTok = async () => {
       "--no-sandbox",
       "--no-zygote",
       "--ignore-certificate-errors",
+      "--window-size=1920,1080",
     ],
+    defaultViewport: {
+      width: 1920,
+      height: 1080,
+    },
     headless: "new",
     executablePath:
       process.env.NODE_ENV === "production"
@@ -41,8 +47,14 @@ export const scrapeTikTok = async () => {
     // Configure the navigation timeout
     page.setDefaultNavigationTimeout(0);
 
+    let totalUpdatedLives = 0;
+
     page.on("requestfinished", async (request: HTTPRequest) => {
-      await handleRequestFinished(request);
+      const modifiedLives = await handleRequestFinished(
+        request,
+        totalUpdatedLives
+      );
+      if (modifiedLives) totalUpdatedLives += modifiedLives;
     });
 
     await page.goto("https://live-backstage.tiktok.com/login?loginType=email", {
@@ -83,12 +95,6 @@ export const scrapeTikTok = async () => {
 
     await waitForTimeout(10000);
 
-    if (process.env.NODE_ENV === "production") {
-      logger("server").info("Successfully logged in!");
-    } else {
-      console.log("Successfully logged in!");
-    }
-
     // Keep clicking next button until it is disabled to trigger all paginated requests
     const isElementVisible = async (page: Page, cssSelector: string) => {
       let visible = true;
@@ -102,15 +108,13 @@ export const scrapeTikTok = async () => {
     };
     const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
     let loadMoreVisible = await isElementVisible(page, cssSelector);
+    let num = 0;
     while (loadMoreVisible) {
-      if (process.env.NODE_ENV === "production") {
-        logger("server").info(
-          "Load more is visible! Loading more live data..."
-        );
-      } else {
-        console.log("Load more is visible! Loading more live data...");
-      }
+      num++;
       await page.click(cssSelector).catch(() => {});
+      await page.screenshot({
+        path: `screenshot${num}.jpg`,
+      });
       loadMoreVisible = await isElementVisible(page, cssSelector);
     }
   } catch (e) {
