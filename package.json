@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "startProd": "node --max-old-space-size=512 --max-semi-space-size=2 -- node_modules/ts-node/dist/bin -P tsconfig.json index.ts",
+    "startProd": "node --max-old-space-size=1024 -- node_modules/ts-node/dist/bin -P tsconfig.json index.ts",
     "dev": "nodemon -x ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
