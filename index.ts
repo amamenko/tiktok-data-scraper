@@ -8,6 +8,7 @@ import { scrapeTikTok } from "./functions/scrapeTikTok";
 import { DailyLive } from "./models/DailyLive";
 import { format } from "date-fns";
 import { logger } from "./logger/logger";
+import { waitForTimeout } from "./functions/waitForTimeout";
 
 const app = express();
 
@@ -26,6 +27,17 @@ if (process.env.NODE_ENV === "production") {
 // Scrape Tik Tok stats every 10 minutes
 cron.schedule("*/10 * * * *", async () => {
   scrapeTikTok();
+});
+
+// Restart server every 6 hours at the 35 minute mark
+cron.schedule("35 */6 * * *", async () => {
+  if (process.env.NODE_ENV === "production") {
+    logger("server").info("Restarting server on purpose!");
+  } else {
+    console.log("Restarting server on purpose!");
+  }
+  await waitForTimeout(5000);
+  process.exit(1);
 });
 
 app.get("/api/daily_live", [], async (req: Request, res: Response) => {
