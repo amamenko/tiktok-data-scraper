@@ -23,8 +23,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-// Scrape Tik Tok stats every 15 minutes
-cron.schedule("*/15 * * * *", async () => {
+// Scrape Tik Tok stats every 10 minutes
+cron.schedule("*/10 * * * *", async () => {
   scrapeTikTok();
 });
 
