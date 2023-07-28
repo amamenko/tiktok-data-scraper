@@ -2,11 +2,9 @@ import "dotenv/config";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { exec } from "child_process";
-import { HTTPRequest, Page } from "puppeteer";
-import { executablePath } from "puppeteer";
-import { waitForTimeout } from "./waitForTimeout";
-import { handleRequestFinished } from "./handleRequestFinished";
+import { PuppeteerLaunchOptions, executablePath } from "puppeteer";
 import { logger } from "../logger/logger";
+import { handlePuppeteerPage } from "./handlePuppeteerPage";
 
 const stealth = StealthPlugin();
 // Remove this specific stealth plugin from the default set
@@ -23,12 +21,17 @@ export const scrapeTikTok = async () => {
   // Kill all leftover Puppeteer processes
   exec("pkill -9 -f puppeteer");
 
-  const browser = await puppeteer.launch({
+  const puppeteerLaunchOptions = {
     args: [
       "--disable-setuid-sandbox",
       "--no-sandbox",
       "--no-zygote",
       "--ignore-certificate-errors",
+      "--disable-dev-shm-usage",
+      "--disable-accelerated-2d-canvas",
+      "--no-first-run",
+      "--single-process",
+      "--disable-gpu",
       "--window-size=1920,1080",
     ],
     defaultViewport: {
@@ -40,96 +43,67 @@ export const scrapeTikTok = async () => {
       process.env.NODE_ENV === "production"
         ? process.env.PUPPETEER_EXECUTABLE_PATH
         : executablePath(),
-  });
+  } as PuppeteerLaunchOptions;
+
   try {
-    const page = await browser.newPage();
-
-    await page.setViewport({
-      width: 1920,
-      height: 1080,
-    });
-
-    // Configure the navigation timeout
-    page.setDefaultNavigationTimeout(0);
-
-    let totalUpdatedLives = 0;
-
-    page.on("requestfinished", async (request: HTTPRequest) => {
-      const modifiedLives = await handleRequestFinished(
-        request,
-        totalUpdatedLives
-      );
-      if (modifiedLives) totalUpdatedLives += modifiedLives;
-    });
-
-    await page.goto("https://live-backstage.tiktok.com/login?loginType=email", {
-      waitUntil: "networkidle2",
-    });
-
-    await waitForTimeout(5000);
-
-    try {
-      await page.click("button.semi-button-secondary");
-    } catch (e) {
-      if (process.env.NODE_ENV === "production") {
-        logger("server").error("No log in button found!");
-      } else {
-        console.error("No log in button found!");
-      }
-    }
-
-    await page.focus('input[placeholder="Enter email address"]');
-    await page.keyboard.type(process.env.TIK_TOK_EMAIL);
-    await page.focus('input[placeholder="Enter password"]');
-    await page.keyboard.type(process.env.TIK_TOK_PASSWORD);
-    try {
-      await page.click("button.semi-button-tertiary.semi-button-size-large");
-    } catch (e) {
-      if (process.env.NODE_ENV === "production") {
-        logger("server").error("No log in button found!");
-      } else {
-        console.error("No log in button found!");
-      }
-    }
-
-    await waitForTimeout(10000);
-
-    await page.goto("https://live-backstage.tiktok.com/portal/anchor/live", {
-      waitUntil: "networkidle2",
-    });
-
-    await waitForTimeout(10000);
-
-    // Keep clicking next button until it is disabled to trigger all paginated requests
-    const isElementVisible = async (page: Page, cssSelector: string) => {
-      let visible = true;
-      await waitForTimeout(5000);
-      await page
-        .waitForSelector(cssSelector, { visible: true, timeout: 10000 })
-        .catch(() => {
-          visible = false;
-        });
-      return visible;
-    };
-    const cssSelector = "li:not(.semi-page-item-disabled).semi-page-next";
-    let loadMoreVisible = await isElementVisible(page, cssSelector);
-    while (loadMoreVisible) {
-      await page.click(cssSelector).catch(() => {});
-      loadMoreVisible = await isElementVisible(page, cssSelector);
-    }
+    const browser = await puppeteer.launch(puppeteerLaunchOptions);
+    await handlePuppeteerPage(browser);
   } catch (e) {
+    const twoMinutesStatement =
+      "Now waiting two minutes before attempting to scrape again...";
     if (process.env.NODE_ENV === "production") {
-      logger("server").error(`Received error during Puppeteer process: ${e}`);
+      logger("server").error(e);
+      logger("server").info(twoMinutesStatement);
     } else {
-      console.error(`Received error during Puppeteer process: ${e}`);
+      console.error(e);
+      console.log(twoMinutesStatement);
     }
-  } finally {
-    // ALWAYS make sure Puppeteer closes the browser when finished regardless of success or error
-    await browser.close();
-    if (process.env.NODE_ENV === "production") {
-      logger("server").info("Scraping complete. Browser closed.");
-    } else {
-      console.log("Scraping complete. Browser closed.");
-    }
+    setTimeout(async () => {
+      const scrapingStatement2 = `♪ Now attempting to scrape Tik Tok data a second time! ♪`;
+      if (process.env.NODE_ENV === "production") {
+        logger("server").info(scrapingStatement2);
+      } else {
+        console.log(scrapingStatement2);
+      }
+      try {
+        // Kill all leftover Puppeteer processes
+        exec("pkill -9 -f puppeteer");
+        const browser2 = await puppeteer.launch(puppeteerLaunchOptions);
+        await handlePuppeteerPage(browser2);
+      } catch (err) {
+        const secondTwoMinutesStatement =
+          "Now waiting two minutes before attempting to scrape a third time...";
+        if (process.env.NODE_ENV === "production") {
+          logger("server").error(err);
+          logger("server").info(secondTwoMinutesStatement);
+        } else {
+          console.error(err);
+          console.log(secondTwoMinutesStatement);
+        }
+        setTimeout(async () => {
+          const scrapingStatement3 = `♪ Now attempting to scrape Tik Tok data a third time! ♪`;
+          if (process.env.NODE_ENV === "production") {
+            logger("server").info(scrapingStatement3);
+          } else {
+            console.log(scrapingStatement3);
+          }
+          try {
+            // Kill all leftover Puppeteer processes
+            exec("pkill -9 -f puppeteer");
+            const browser3 = await puppeteer.launch(puppeteerLaunchOptions);
+            await handlePuppeteerPage(browser3);
+          } catch (error) {
+            const abortStatement = "Aborting Tik Tok scraping process.";
+            if (process.env.NODE_ENV === "production") {
+              logger("server").error(error);
+              logger("server").info(abortStatement);
+            } else {
+              console.error(error);
+              console.log(abortStatement);
+            }
+          }
+        }, 120000);
+      }
+    }, 120000);
   }
 };

@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const dailyLiveSchema = new mongoose.Schema(
   {
     date: String,
-    diamondTrends: [Number],
     lives: [
       {
         roomID: String,

@@ -24,13 +24,15 @@ if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-// Scrape Tik Tok stats every 10 minutes
-cron.schedule("*/10 * * * *", async () => {
-  scrapeTikTok();
-});
+if (process.env.PROD_SCRAPING_SERVER) {
+  // Scrape Tik Tok stats every 10 minutes
+  cron.schedule("*/10 * * * *", async () => {
+    scrapeTikTok();
+  });
+}
 
-// Restart server every 6 hours at the 35 minute mark
-cron.schedule("35 */6 * * *", async () => {
+// Restart server every 3 hours at the 35 minute mark
+cron.schedule("35 */3 * * *", async () => {
   if (process.env.NODE_ENV === "production") {
     logger("server").info("Restarting server on purpose!");
   } else {
@@ -45,7 +47,7 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
   const currentDate = queryDate ? queryDate : format(new Date(), "MM/dd/yyyy");
   const dailyLiveGen = await DailyLive.find(
     { date: currentDate },
-    { date: 1, diamondTrends: 1, createdAt: 1, updatedAt: 1 }
+    { date: 1, createdAt: 1, updatedAt: 1 }
   ).catch((e) => {
     if (process.env.NODE_ENV === "production") {
       logger("server").error(e);
@@ -81,13 +83,8 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
       },
     },
   ]);
-  let docDetails = {};
-  if (dailyLiveGen && dailyLiveGen[0]) {
-    docDetails = dailyLiveGen[0];
-  }
   const responseObj = {
     date: dailyLiveGen[0].date,
-    diamondTrends: dailyLiveGen[0].diamondTrends,
     createdAt: dailyLiveGen[0].createdAt,
     updatedAt: dailyLiveGen[0].updatedAt,
     lives: [...dailyLiveLives],

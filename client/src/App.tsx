@@ -8,7 +8,6 @@ import { SortDropdown } from "./components/SortDropdown/SortDropdown";
 import { ContextProps } from "./interfaces/ContextProps.interface";
 import { contextDefaults } from "./contextDefaults";
 import { ClipLoader } from "react-spinners";
-import { Trends } from "./components/Trends/Trends";
 import "./App.scss";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
@@ -111,9 +110,6 @@ const App = () => {
         {!dataLoading && liveData && liveData.lives ? (
           <>
             <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
-              {liveData.diamondTrends && liveData.diamondTrends.length > 0 && (
-                <Trends />
-              )}
               <SortDropdown
                 liveData={liveData}
                 changeLiveData={changeLiveData}

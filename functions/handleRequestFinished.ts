@@ -74,7 +74,6 @@ export const handleRequestFinished = async (
             // Current date live document doesn't exist - create one
             await DailyLive.create({
               date: today,
-              diamondTrends: [],
               paths: [],
             }).catch((e) => {
               if (process.env.NODE_ENV === "production") {
@@ -184,19 +183,8 @@ export const handleRequestFinished = async (
             }
           }
           const liveDateFilter = { date: today };
-          const diamondTrends = oldLiveData[0]
-            ? oldLiveData[0].diamondTrends
-            : [];
-          const currentHourIndex = new Date().getHours();
-          if (!diamondTrends[currentHourIndex]) {
-            diamondTrends[currentHourIndex] = liveDataArr.reduce(
-              (a, b: Live) => a + Number(b.diamonds),
-              0
-            );
-          }
           const liveDataUpdate = {
             date: today,
-            diamondTrends,
             lives: liveDataArr,
           };
           // Update live data
