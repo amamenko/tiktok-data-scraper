@@ -1,127 +1,90 @@
+.rankings_title {
+  padding: 2rem 0 1rem 0;
+  font-size: 2rem;
+  text-decoration: underline;
+}
+
 .room_outer_container {
   display: flex;
   align-items: center;
-  border: 1px solid rgb(150, 150, 150);
-  border-right: none;
-  border-left: none;
-  position: relative;
-  height: 8rem;
-  margin-top: 1rem;
-  .room_user_container {
-    position: relative;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  .user_rank_container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
-    max-width: 6rem;
-    height: 100%;
-    background: rgb(235, 235, 235);
-    &.dark {
-      background: rgb(40, 40, 40);
+    gap: 1rem;
+    .user_rank_number {
+      font-weight: 600;
     }
-    p {
-      max-width: 4rem;
-      word-wrap: break-word;
-      font-size: 0.6rem;
-      font-weight: 700;
-      margin: 0;
-      padding: 1.5rem 0 0.5rem 0;
-      @media only screen and (min-width: 768px) {
-        font-size: 0.7rem;
-      }
-    }
-    img {
-      padding: 0;
-      margin: 0;
-      width: 50px;
-      height: 50px;
-      border-radius: 50px;
-    }
-    .number_circle {
-      position: absolute;
-      top: 0.25rem;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      transition: background 0.4s ease, border-color 0.4s ease;
-      border: 1px solid rgb(110, 110, 110);
-      border-radius: 50px;
-      &.dark {
-        background: #000;
-        border: 1px solid #fff;
-      }
-      p {
-        font-size: 0.55rem;
-        font-weight: 800;
-        margin: 0.3rem 0 0 0;
-        padding: 0;
-      }
-    }
+  }
+  .user_image_circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+  }
+  .user_display_id {
+    font-weight: 600;
+    font-size: 1.1rem;
   }
 
   .diamonds_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    min-width: 5rem;
-    max-width: 5rem;
-    border-right: 1px solid rgb(200, 200, 200);
-    border-left: 1px solid rgb(200, 200, 200);
-    height: 100%;
-    .diamonds_inner_container {
-      margin-top: 0.3rem;
-      max-height: 4rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      flex: 1;
-    }
     .diamonds_count {
-      font-size: 0.9rem;
-      font-weight: 800;
-      margin: 0.6rem 0 0 0;
-      padding: 0;
-      &.cash {
-        color: rgb(34, 139, 34);
-        &.dark {
-          color: rgb(94, 199, 94);
-        }
-      }
+      font-size: 0.8rem;
+      font-weight: 700;
     }
   }
+}
 
-  .room_time_container {
-    flex: 2;
-    height: 100%;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    line-height: 0;
-    .time_label {
-      background: rgb(235, 235, 235);
-      transition: background 0.4s ease;
-      width: 100%;
+.leader-cards-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "column-2 column-1 column-3";
+  gap: 0.25rem;
+  margin: 0 1rem;
+  align-items: flex-end;
+  .leader-card-container {
+    background: rgb(42, 47, 54);
+    border-radius: 2px;
+    height: 92.5%;
+    .user_image_circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      margin-top: 1rem;
+      border: 3px solid rgb(92, 97, 104);
+    }
+    .leader-username {
+      font-weight: 700;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       text-align: center;
-      &.dark {
-        background: rgb(40, 40, 40);
-      }
-      h2 {
-        font-size: 0.7rem;
-      }
+      width: 65%;
+      margin: 0 auto;
     }
-    p {
-      font-size: 0.8rem;
+    .leader-diamonds {
+      margin: 0.2rem 0 0.75rem 0;
+      font-size: 0.75rem;
+      font-weight: 700;
     }
+  }
+  .leader-card-container:nth-child(1) {
+    grid-area: column-1;
+    height: 100%;
+    .user_image_circle {
+      width: 65px;
+      height: 65px;
+    }
+  }
+  .leader-card-container:nth-child(2) {
+    grid-area: column-2;
+  }
+  .leader-card-container:nth-child(3) {
+    grid-area: column-3;
   }
 }

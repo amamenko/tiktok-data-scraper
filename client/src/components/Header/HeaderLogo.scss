@@ -1,0 +1,12 @@
+.header_logo_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 512px;
+  margin: 0 auto;
+  img {
+    object-fit: contain;
+    width: 100%;
+  }
+}

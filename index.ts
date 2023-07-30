@@ -83,11 +83,12 @@ app.get("/api/daily_live", [], async (req: Request, res: Response) => {
       },
     },
   ]);
+  dailyLiveLives.sort((a, b) => b.diamonds - a.diamonds);
   const responseObj = {
     date: dailyLiveGen[0].date,
     createdAt: dailyLiveGen[0].createdAt,
     updatedAt: dailyLiveGen[0].updatedAt,
-    lives: [...dailyLiveLives],
+    lives: dailyLiveLives.slice(0, 100),
   };
   res.send(responseObj);
 });

@@ -51,13 +51,8 @@ export const scrapeTikTok = async () => {
   } catch (e) {
     const twoMinutesStatement =
       "Now waiting two minutes before attempting to scrape again...";
-    if (process.env.NODE_ENV === "production") {
-      logger("server").error(e);
-      logger("server").info(twoMinutesStatement);
-    } else {
-      console.error(e);
-      console.log(twoMinutesStatement);
-    }
+    console.error(e);
+    console.log(twoMinutesStatement);
     setTimeout(async () => {
       const scrapingStatement2 = `♪ Now attempting to scrape Tik Tok data a second time! ♪`;
       if (process.env.NODE_ENV === "production") {
@@ -73,13 +68,8 @@ export const scrapeTikTok = async () => {
       } catch (err) {
         const secondTwoMinutesStatement =
           "Now waiting two minutes before attempting to scrape a third time...";
-        if (process.env.NODE_ENV === "production") {
-          logger("server").error(err);
-          logger("server").info(secondTwoMinutesStatement);
-        } else {
-          console.error(err);
-          console.log(secondTwoMinutesStatement);
-        }
+        console.error(err);
+        console.log(secondTwoMinutesStatement);
         setTimeout(async () => {
           const scrapingStatement3 = `♪ Now attempting to scrape Tik Tok data a third time! ♪`;
           if (process.env.NODE_ENV === "production") {
@@ -94,13 +84,8 @@ export const scrapeTikTok = async () => {
             await handlePuppeteerPage(browser3);
           } catch (error) {
             const abortStatement = "Aborting Tik Tok scraping process.";
-            if (process.env.NODE_ENV === "production") {
-              logger("server").error(error);
-              logger("server").info(abortStatement);
-            } else {
-              console.error(error);
-              console.log(abortStatement);
-            }
+            console.error(error);
+            console.log(abortStatement);
           }
         }, 120000);
       }
