@@ -9,12 +9,6 @@
 # production
 /build
 
-# images
-*.jpg
-*.jpeg
-*.png
-*.gif
-
 # misc
 .DS_Store
 .env
