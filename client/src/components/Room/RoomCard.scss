@@ -1,5 +1,26 @@
+.countdown_container {
+  text-align: left;
+  margin: 0 0 2rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgb(149, 148, 154);
+  .countdown_number_text {
+    color: #000;
+    &.dark {
+      color: #fff;
+    }
+  }
+}
+
+.toggle_dark_mode_button {
+  cursor: pointer;
+  position: absolute;
+  top: 2.5rem;
+  right: 1rem;
+}
+
 .rankings_title {
-  padding: 2rem 0 1rem 0;
+  padding: 2rem 0 0.5rem 0;
   font-size: 2rem;
   text-decoration: underline;
 }
@@ -20,22 +41,30 @@
     gap: 1rem;
     .user_rank_number {
       font-weight: 600;
+      color: rgb(149, 148, 154);
     }
   }
   .user_image_circle {
     width: 50px;
     height: 50px;
     border-radius: 50px;
+    position: relative;
   }
   .user_display_id {
     font-weight: 600;
     font-size: 1.1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    width: 50%;
   }
 
   .diamonds_container {
     .diamonds_count {
       font-size: 0.8rem;
       font-weight: 700;
+      color: rgb(149, 148, 154);
     }
   }
 }
@@ -47,16 +76,54 @@
   gap: 0.25rem;
   margin: 0 1rem;
   align-items: flex-end;
+  justify-items: center;
   .leader-card-container {
-    background: rgb(42, 47, 54);
+    position: relative;
+    background: rgb(248, 248, 248);
     border-radius: 2px;
     height: 92.5%;
+    width: 100%;
+    @media only screen and (max-width: 419px) {
+      width: 115px;
+      max-width: 115px;
+    }
+    @media only screen and (min-width: 420px) and (max-width: 512px) {
+      width: 128.29px;
+      max-width: 128.29px;
+    }
+    &.dark {
+      background: rgb(42, 47, 54);
+      img.rank-designator {
+        opacity: 0.65;
+      }
+    }
+    img.rank-designator {
+      position: absolute;
+      right: -12px;
+      top: -2px;
+      width: 50px;
+      top: -2px;
+      opacity: 1;
+      &.one {
+        right: -17px;
+        top: -4px;
+        width: 55px;
+      }
+      &.two {
+        right: -4px;
+      }
+      &.three {
+        right: -2px;
+      }
+    }
     .user_image_circle {
       width: 50px;
       height: 50px;
       border-radius: 50px;
       margin-top: 1rem;
+      margin-bottom: 0.5rem;
       border: 3px solid rgb(92, 97, 104);
+      position: relative;
     }
     .leader-username {
       font-weight: 700;
@@ -68,9 +135,10 @@
       margin: 0 auto;
     }
     .leader-diamonds {
-      margin: 0.2rem 0 0.75rem 0;
-      font-size: 0.75rem;
+      margin: 0.3rem 0 0.75rem 0;
+      font-size: 0.85rem;
       font-weight: 700;
+      color: rgb(158, 158, 158);
     }
   }
   .leader-card-container:nth-child(1) {

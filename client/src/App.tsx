@@ -14,7 +14,7 @@ const App = () => {
   const [liveData, changeLiveData] = useState<DailyLive | null>(null);
   const [dataLoading, changeDataLoading] = useState(false);
   const [darkMode, changeDarkMode] = useState(true);
-  const getDailyLiveData = async () => {
+  const getWeeklyLiveData = async () => {
     const nodeEnv = process.env.REACT_APP_NODE_ENV
       ? process.env.REACT_APP_NODE_ENV
       : "";
@@ -22,8 +22,8 @@ const App = () => {
     const liveArr = await axios
       .get(
         nodeEnv && nodeEnv === "production"
-          ? `${process.env.REACT_APP_PROD_SERVER}/api/daily_live`
-          : "http://localhost:4000/api/daily_live"
+          ? `${process.env.REACT_APP_PROD_SERVER}/api/weekly_rankings`
+          : "http://localhost:4000/api/weekly_rankings"
       )
       .then((res) => res.data)
       .then((data) => {
@@ -78,7 +78,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       changeDataLoading(true);
-      const liveData = await getDailyLiveData();
+      const liveData = await getWeeklyLiveData();
       changeLiveData(liveData);
     };
     fetchData();
@@ -98,11 +98,7 @@ const App = () => {
       <div className="App">
         <HeaderLogo />
         {!dataLoading && liveData && liveData.lives ? (
-          <>
-            <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
-              <RoomResults liveData={liveData} />
-            </div>
-          </>
+          <RoomResults liveData={liveData} />
         ) : (
           <div className="loader_container">
             <ClipLoader

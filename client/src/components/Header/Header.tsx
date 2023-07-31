@@ -53,10 +53,6 @@ export const Header = () => {
           data={liveData ? liveData.lives.length.toString() : "0"}
         />
       </div>
-      <h2 className={`stats_last_updated ${darkMode ? "dark" : ""}`}>
-        Last updated:{" "}
-        {liveData ? format(new Date(liveData.updatedAt), "PPpp") : "N/A"}
-      </h2>
     </div>
   );
 };
