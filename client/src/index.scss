@@ -1,3 +1,45 @@
+@font-face {
+  font-family: "TikTokDisplay";
+  src: url("./assets/fonts/TikTokDisplayRegular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TikTokDisplay";
+  src: url("./assets/fonts/TikTokDisplayMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TikTokDisplay";
+  src: url("./assets/fonts/TikTokDisplayBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TikTokText";
+  src: url("./assets/fonts/TikTokTextRegular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TikTokText";
+  src: url("./assets/fonts/TikTokTextMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "TikTokText";
+  src: url("./assets/fonts/TikTokTextBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

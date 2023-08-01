@@ -4,6 +4,7 @@ import { format, startOfWeek, addDays, getUnixTime } from "date-fns";
 
 export const getWeeklyRankings = async (req: Request, res: Response) => {
   const absoluteCurrentDate = new Date();
+  const formattedCurrentDate = format(new Date(), "MM/dd/yyyy");
 
   const weekStartsOnDate = startOfWeek(absoluteCurrentDate); // Sunday
   const weekStartsOnFormatted = format(weekStartsOnDate, "MM/dd/yyyy");
@@ -43,11 +44,16 @@ export const getWeeklyRankings = async (req: Request, res: Response) => {
     },
   ]);
   dailyLiveLives.sort((a, b) => b.diamonds - a.diamonds);
-  const weekEndsOnDateUnix = getUnixTime(addDays(weekStartsOnDate, 6)) * 1000;
+  const weekEndsOnDateUnix = getUnixTime(addDays(weekStartsOnDate, 7)) * 1000;
+  const dailyLiveGen = await DailyLive.find(
+    { date: formattedCurrentDate },
+    { date: 1, updatedAt: 1 }
+  ).catch((e) => console.error(e));
   const responseObj = {
     weekStarting: weekStartsOnFormatted,
     refreshAt: weekEndsOnDateUnix,
     lives: dailyLiveLives.slice(0, 100),
+    updatedAt: getUnixTime(dailyLiveGen[0].updatedAt) * 1000,
   };
   res.send(responseObj);
 };

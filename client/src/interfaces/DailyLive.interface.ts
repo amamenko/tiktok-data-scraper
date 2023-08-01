@@ -4,4 +4,5 @@ export interface DailyLive {
   lives: LiveRoom[];
   weekStarting: string;
   refreshAt: number;
+  updatedAt: number;
 }

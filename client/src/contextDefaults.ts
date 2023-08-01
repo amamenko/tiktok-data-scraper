@@ -5,6 +5,7 @@ export const contextDefaults = {
     lives: [],
     weekStarting: "",
     refreshAt: 0,
+    updatedAt: 0,
   },
   changeLiveData: () => {},
   darkMode: true,

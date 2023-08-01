@@ -1,10 +1,38 @@
+.react-tooltip {
+  font-family: "TikTokText";
+  font-weight: 500;
+  font-size: 0.75rem !important;
+  background: #000 !important;
+  color: #fff !important;
+  padding: 0.25rem 0.5rem !important;
+  &.dark {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
 .countdown_container {
-  text-align: left;
-  margin: 0 0 2rem 1rem;
-  font-size: 0.85rem;
+  font-family: "TikTokText";
   font-weight: 700;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 2.5rem 1rem;
+  font-size: 0.85rem;
   color: rgb(149, 148, 154);
+  .information_line {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    &:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+    svg.info_circle {
+      cursor: pointer;
+    }
+  }
   .countdown_number_text {
+    font-family: "TikTokText";
     color: #000;
     &.dark {
       color: #fff;
@@ -20,6 +48,8 @@
 }
 
 .rankings_title {
+  font-family: "TikTokDisplay";
+  font-weight: 700;
   padding: 2rem 0 0.5rem 0;
   font-size: 2rem;
   text-decoration: underline;
@@ -40,28 +70,36 @@
     width: 100%;
     gap: 1rem;
     .user_rank_number {
+      font-family: "TikTokText";
       font-weight: 600;
       color: rgb(149, 148, 154);
     }
   }
+
   .user_image_circle {
     width: 50px;
     height: 50px;
     border-radius: 50px;
     position: relative;
   }
+
   .user_display_id {
+    font-family: "TikTokDisplay";
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     text-align: left;
-    width: 50%;
+    width: 40%;
+    @media only screen and (max-width: 400px) {
+      font-size: 0.9rem;
+    }
   }
 
   .diamonds_container {
     .diamonds_count {
+      font-family: "TikTokText";
       font-size: 0.8rem;
       font-weight: 700;
       color: rgb(149, 148, 154);
@@ -83,7 +121,11 @@
     border-radius: 2px;
     height: 92.5%;
     width: 100%;
-    @media only screen and (max-width: 419px) {
+    @media only screen and (max-width: 375px) {
+      width: 105px;
+      max-width: 105px;
+    }
+    @media only screen and (min-width: 376px) and (max-width: 419px) {
       width: 115px;
       max-width: 115px;
     }
@@ -126,6 +168,7 @@
       position: relative;
     }
     .leader-username {
+      font-family: "TikTokDisplay";
       font-weight: 700;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -135,9 +178,10 @@
       margin: 0 auto;
     }
     .leader-diamonds {
+      font-family: "TikTokText";
+      font-weight: 700;
       margin: 0.3rem 0 0.75rem 0;
       font-size: 0.85rem;
-      font-weight: 700;
       color: rgb(158, 158, 158);
     }
   }

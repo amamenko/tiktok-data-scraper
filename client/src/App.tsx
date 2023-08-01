@@ -104,7 +104,7 @@ const App = () => {
             <ClipLoader
               color={darkMode ? "#fff" : "#000"}
               loading={true}
-              size={150}
+              size={100}
             />
           </div>
         )}
