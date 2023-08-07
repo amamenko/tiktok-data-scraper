@@ -6,15 +6,22 @@ import { ContextProps } from "./interfaces/ContextProps.interface";
 import { contextDefaults } from "./contextDefaults";
 import { ClipLoader } from "react-spinners";
 import { HeaderLogo } from "./components/Header/HeaderLogo";
+import { HistoricalResults } from "./components/Room/HistoricalResults";
 import "./App.scss";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
 
 const App = () => {
   const [liveData, changeLiveData] = useState<DailyLive | null>(null);
+  const [historicalData, changeHistoricalData] = useState<DailyLive | null>(
+    null
+  );
+
+  const [showRankingHistory, changeShowRankingHistory] = useState(false);
   const [dataLoading, changeDataLoading] = useState(false);
   const [darkMode, changeDarkMode] = useState(true);
-  const getWeeklyLiveData = async () => {
+
+  const getLiveData = async (type?: string) => {
     const nodeEnv = process.env.REACT_APP_NODE_ENV
       ? process.env.REACT_APP_NODE_ENV
       : "";
@@ -22,8 +29,12 @@ const App = () => {
     const liveArr = await axios
       .get(
         nodeEnv && nodeEnv === "production"
-          ? `${process.env.REACT_APP_PROD_SERVER}/api/weekly_rankings`
-          : "http://localhost:4000/api/weekly_rankings"
+          ? `${process.env.REACT_APP_PROD_SERVER}/api/${
+              type === "history" ? "ranking_history" : "weekly_rankings"
+            }`
+          : `http://localhost:4000/api/${
+              type === "history" ? "ranking_history" : "weekly_rankings"
+            }`
       )
       .then((res) => res.data)
       .then((data) => {
@@ -78,10 +89,19 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       changeDataLoading(true);
-      const liveData = await getWeeklyLiveData();
+      const liveData = await getLiveData();
       changeLiveData(liveData);
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      changeDataLoading(true);
+      const historicalLiveData = await getLiveData("history");
+      changeHistoricalData(historicalLiveData);
+    };
+    fetchHistoricalData();
   }, []);
 
   return (
@@ -93,11 +113,15 @@ const App = () => {
         changeDataLoading,
         darkMode,
         changeDarkMode,
+        showRankingHistory,
+        changeShowRankingHistory,
       }}
     >
       <div className="App">
         <HeaderLogo />
-        {!dataLoading && liveData && liveData.lives ? (
+        {!dataLoading && showRankingHistory ? (
+          <HistoricalResults historicalData={historicalData} />
+        ) : !dataLoading && liveData && liveData.lives ? (
           <RoomResults liveData={liveData} />
         ) : (
           <div className="loader_container">

@@ -8,4 +8,6 @@ export interface ContextProps {
   changeDataLoading: React.Dispatch<React.SetStateAction<boolean>>;
   darkMode: boolean;
   changeDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  showRankingHistory: boolean;
+  changeShowRankingHistory: React.Dispatch<React.SetStateAction<boolean>>;
 }

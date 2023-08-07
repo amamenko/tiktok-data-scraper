@@ -62,10 +62,11 @@
       color: rgb(218, 151, 49);
       white-space: nowrap;
       width: max-content;
-      padding-right: 0.5rem;
+      padding-right: 0.75rem;
       .ranking_medal_container {
+        position: relative;
         display: flex;
-        margin-right: 0.25rem;
+        margin-right: 0.5rem;
         .vl {
           height: 25px;
           &:nth-child(even) {
@@ -74,6 +75,22 @@
           &:nth-child(odd) {
             border-left: 4px solid rgb(253, 177, 4);
           }
+        }
+        .medal_fire_wrapper {
+          background: rgb(254, 239, 186);
+          position: absolute;
+          bottom: 0.15rem;
+          right: 0;
+          left: 0;
+          margin: 0 auto;
+          border-radius: 50px;
+          width: 13px;
+          height: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 0 2px rgb(254, 239, 186);
+          border: 2px solid rgb(255, 166, 34);
         }
       }
       span {
@@ -85,11 +102,17 @@
   }
 }
 
+.back_header_button,
 .toggle_dark_mode_button {
   cursor: pointer;
   position: absolute;
   top: 2.5rem;
   right: 1rem;
+}
+
+.back_header_button {
+  right: auto;
+  left: 1rem;
 }
 
 .rankings_title {

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { format, startOfWeek, addDays } from "date-fns";
+import { format, startOfWeek, addDays, subDays } from "date-fns";
 import { getTop100LiveResults } from "./getTop100LiveResults";
 
-export const getWeeklyRankings = async (req: Request, res: Response) => {
-  const absoluteCurrentDate = new Date();
-  const formattedCurrentDate = format(absoluteCurrentDate, "MM/dd/yyyy");
+export const getRankingHistory = async (req: Request, res: Response) => {
+  const absoluteWeekAgo = subDays(new Date(), 7);
+  const formattedWeekAgo = format(absoluteWeekAgo, "MM/dd/yyyy");
 
-  const weekStartsOnDate = startOfWeek(absoluteCurrentDate); // Sunday
+  const weekStartsOnDate = startOfWeek(absoluteWeekAgo); // Sunday
   const weekStartsOnFormatted = format(weekStartsOnDate, "MM/dd/yyyy");
   const boundaryDatesArr = [weekStartsOnFormatted];
 
@@ -22,7 +22,7 @@ export const getWeeklyRankings = async (req: Request, res: Response) => {
     res,
     boundaryDatesArr,
     weekStartsOnDate,
-    formattedCurrentDate,
+    formattedWeekAgo,
     weekStartsOnFormatted
   );
 };

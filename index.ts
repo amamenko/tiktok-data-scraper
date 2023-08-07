@@ -6,6 +6,7 @@ import enforce from "express-sslify";
 import { logger } from "./logger/logger";
 import { getDailyRankings } from "./functions/getDailyRankings";
 import { getWeeklyRankings } from "./functions/getWeeklyRankings";
+import { getRankingHistory } from "./functions/getRankingHistory";
 
 const app = express();
 
@@ -27,6 +28,10 @@ app.get("/api/daily_rankings", [], async (req: Request, res: Response) => {
 
 app.get("/api/weekly_rankings", [], async (req: Request, res: Response) => {
   getWeeklyRankings(req, res);
+});
+
+app.get("/api/ranking_history", [], async (req: Request, res: Response) => {
+  getRankingHistory(req, res);
 });
 
 app.get("/", (req: Request, res: Response) => {

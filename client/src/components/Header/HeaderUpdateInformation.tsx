@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { formatDistance } from "date-fns";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { AiFillFire, AiOutlineQuestionCircle } from "react-icons/ai";
 import { RefreshCountdownTimer } from "../Room/RefreshCountdownTimer";
 import { DailyLive } from "../../interfaces/DailyLive.interface";
+import { AppContext } from "../../App";
 
 interface HeaderUpdateInformationProps {
   liveData: DailyLive;
@@ -11,6 +12,10 @@ interface HeaderUpdateInformationProps {
 export const HeaderUpdateInformation = ({
   liveData,
 }: HeaderUpdateInformationProps) => {
+  const { showRankingHistory, changeShowRankingHistory } =
+    useContext(AppContext);
+  const handleToggleRankingHistory = () =>
+    changeShowRankingHistory(!showRankingHistory);
   return (
     <div className="countdown_container">
       <div className="left_side_data_wrapper">
@@ -34,15 +39,26 @@ export const HeaderUpdateInformation = ({
         </span>
       </div>
       <div className="right_side_data_wrapper">
-        {/* <div className="ranking_history_button">
+        <div
+          className="ranking_history_button"
+          onClick={handleToggleRankingHistory}
+        >
           <div className="ranking_medal_container">
             <div className="vl" />
             <div className="vl" />
             <div className="vl" />
             <div className="vl" />
+            <div className="vl" />
+            <span className="medal_fire_wrapper">
+              <AiFillFire
+                className="medal_fire_icon"
+                size={10}
+                color="rgb(255,166,34)"
+              />
+            </span>
           </div>
           <span>Ranking history</span>
-        </div> */}
+        </div>
       </div>
     </div>
   );
