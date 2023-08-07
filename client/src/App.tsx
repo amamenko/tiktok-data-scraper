@@ -96,13 +96,15 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const fetchHistoricalData = async () => {
-      changeDataLoading(true);
-      const historicalLiveData = await getLiveData("history");
-      changeHistoricalData(historicalLiveData);
-    };
-    fetchHistoricalData();
-  }, []);
+    if (showRankingHistory && !historicalData) {
+      const fetchHistoricalData = async () => {
+        changeDataLoading(true);
+        const historicalLiveData = await getLiveData("history");
+        changeHistoricalData(historicalLiveData);
+      };
+      fetchHistoricalData();
+    }
+  }, [showRankingHistory, historicalData]);
 
   return (
     <AppContext.Provider
@@ -119,7 +121,7 @@ const App = () => {
     >
       <div className="App">
         <HeaderLogo />
-        {!dataLoading && showRankingHistory ? (
+        {showRankingHistory ? (
           <HistoricalResults historicalData={historicalData} />
         ) : !dataLoading && liveData && liveData.lives ? (
           <RoomResults liveData={liveData} />
