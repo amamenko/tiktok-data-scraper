@@ -105,7 +105,7 @@
   .user_image_circle {
     border: 3px solid #fff;
     &.live_currently {
-      outline: 2px solid rgb(252, 30, 117);
+      box-shadow: 0 0 0 2px rgb(252, 30, 117);
       cursor: pointer;
     }
   }
@@ -150,10 +150,14 @@
     align-items: center;
     width: 100%;
     gap: 1rem;
-    .user_rank_number {
-      font-family: "TikTokText";
-      font-weight: 600;
-      color: rgb(149, 148, 154);
+    .user_rank_number_container {
+      width: 18.26px;
+      .user_rank_number {
+        font-family: "TikTokText";
+        font-weight: 600;
+        color: rgb(149, 148, 154);
+        text-align: center;
+      }
     }
   }
 
@@ -163,7 +167,7 @@
     border-radius: 50px;
     position: relative;
     &.live_currently {
-      outline: 2px solid rgb(252, 30, 117);
+      box-shadow: 0 0 0 2px rgb(252, 30, 117);
       cursor: pointer;
     }
   }
@@ -254,7 +258,7 @@
         border: 3px solid #fff;
         position: relative;
         &.outline_currently {
-          outline: 2px solid rgb(252, 30, 117);
+          box-shadow: 0 0 0 2px rgb(252, 30, 117);
         }
       }
       .live_currently_icon_circle {
