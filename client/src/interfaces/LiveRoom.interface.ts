@@ -5,5 +5,5 @@ export interface LiveRoom {
   userID: string;
   diamonds: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: number;
 }

@@ -40,10 +40,15 @@ export const getWeeklyRankings = async (req: Request, res: Response) => {
         displayID: { $first: "$userInfo.displayID" },
         userID: { $first: "$userInfo.userID" },
         avatar: { $first: "$userInfo.avatar" },
+        updatedAt: { $first: "$userInfo.updatedAt" },
       },
     },
   ]);
   dailyLiveLives.sort((a, b) => b.diamonds - a.diamonds);
+  const topHundredLives = dailyLiveLives.slice(0, 100);
+  const topHundredLivesUnixUpdated = topHundredLives.map((live) => {
+    return { ...live, updatedAt: getUnixTime(live.updatedAt) * 1000 };
+  });
   const weekEndsOnDateUnix = getUnixTime(addDays(weekStartsOnDate, 7)) * 1000;
   const dailyLiveGen = await DailyLive.find(
     { date: formattedCurrentDate },
@@ -52,7 +57,7 @@ export const getWeeklyRankings = async (req: Request, res: Response) => {
   const responseObj = {
     weekStarting: weekStartsOnFormatted,
     refreshAt: weekEndsOnDateUnix,
-    lives: dailyLiveLives.slice(0, 100),
+    lives: topHundredLivesUnixUpdated,
     updatedAt: getUnixTime(dailyLiveGen[0].updatedAt) * 1000,
   };
   res.send(responseObj);

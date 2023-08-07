@@ -55,6 +55,40 @@
   text-decoration: underline;
 }
 
+.user_image_wrapper {
+  position: relative;
+  .user_image_circle {
+    border: 3px solid #fff;
+    &.live_currently {
+      outline: 2px solid rgb(252, 30, 117);
+      cursor: pointer;
+    }
+  }
+  .live_currently_icon_circle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(252, 30, 117);
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+    bottom: 0.5rem;
+    right: 0;
+    left: 2.5rem;
+    margin: 0 auto;
+  }
+  &.dark {
+    .user_image_circle {
+      border: 3px solid rgb(92, 97, 104);
+    }
+    .live_currently_icon_circle {
+      border: 1px solid rgb(92, 97, 104);
+    }
+  }
+}
+
 .room_outer_container {
   display: flex;
   align-items: center;
@@ -81,6 +115,10 @@
     height: 50px;
     border-radius: 50px;
     position: relative;
+    &.live_currently {
+      outline: 2px solid rgb(252, 30, 117);
+      cursor: pointer;
+    }
   }
 
   .user_display_id {
@@ -158,14 +196,31 @@
         right: -2px;
       }
     }
-    .user_image_circle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50px;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
-      border: 3px solid rgb(92, 97, 104);
+    .user_image_wrapper {
       position: relative;
+      .user_image_circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        border: 3px solid #fff;
+        position: relative;
+        &.outline_currently {
+          outline: 2px solid rgb(252, 30, 117);
+        }
+      }
+      .live_currently_icon_circle {
+        left: 3rem;
+      }
+      &.dark {
+        .user_image_circle {
+          border: 3px solid rgb(92, 97, 104);
+        }
+        .live_currently_icon_circle {
+          border: 1px solid rgb(92, 97, 104);
+        }
+      }
     }
     .leader-username {
       font-family: "TikTokDisplay";

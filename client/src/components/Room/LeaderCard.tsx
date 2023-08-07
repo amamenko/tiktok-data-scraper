@@ -41,7 +41,11 @@ export const LeaderCard = ({ live, index }: LeaderCardProps) => {
           alt="Number three rank"
         />
       )}
-      <ImageCircle avatar={live.avatar} displayID={live.displayID} />
+      <ImageCircle
+        avatar={live.avatar}
+        displayID={live.displayID}
+        updatedAt={live.updatedAt}
+      />
       <p className="leader-username">{live.displayID}</p>
       <p className="leader-diamonds">
         {live.diamonds >= 1000

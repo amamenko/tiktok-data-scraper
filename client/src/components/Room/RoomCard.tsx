@@ -19,7 +19,11 @@ export const RoomCard = ({
     <div className="room_outer_container">
       <div className="user_rank_container">
         <p className="user_rank_number">{index + 4}</p>
-        <ImageCircle avatar={live.avatar} displayID={live.displayID} />
+        <ImageCircle
+          avatar={live.avatar}
+          displayID={live.displayID}
+          updatedAt={live.updatedAt}
+        />
         <p className="user_display_id">{live.displayID}</p>
       </div>
       <div className="diamonds_container">
