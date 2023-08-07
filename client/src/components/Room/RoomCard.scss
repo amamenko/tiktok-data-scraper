@@ -16,14 +16,24 @@
   font-weight: 700;
   text-align: left;
   display: flex;
-  flex-direction: column;
-  margin: 0 0 2.5rem 1rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 1rem 2.5rem 1rem;
   font-size: 0.85rem;
   color: rgb(149, 148, 154);
+  .left_side_data_wrapper,
+  .right_side_data_wrapper {
+    display: flex;
+    flex-direction: column;
+  }
   .information_line {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    @media only screen and (max-width: 768px) {
+      font-size: 0.75rem;
+    }
     &:not(:first-child) {
       margin-top: 0.5rem;
     }
@@ -36,6 +46,41 @@
     color: #000;
     &.dark {
       color: #fff;
+    }
+  }
+  .left_side_data_wrapper {
+    flex: 1.5;
+  }
+  .right_side_data_wrapper {
+    flex: 1;
+    .ranking_history_button {
+      cursor: pointer;
+      display: flex;
+      align-self: flex-end;
+      align-items: center;
+      background: rgb(255, 245, 231);
+      color: rgb(218, 151, 49);
+      white-space: nowrap;
+      width: max-content;
+      padding-right: 0.5rem;
+      .ranking_medal_container {
+        display: flex;
+        margin-right: 0.25rem;
+        .vl {
+          height: 25px;
+          &:nth-child(even) {
+            border-left: 4px solid rgb(255, 208, 116);
+          }
+          &:nth-child(odd) {
+            border-left: 4px solid rgb(253, 177, 4);
+          }
+        }
+      }
+      span {
+        @media only screen and (max-width: 768px) {
+          font-size: 0.75rem;
+        }
+      }
     }
   }
 }
@@ -71,6 +116,8 @@
     justify-content: center;
     background: rgb(252, 30, 117);
     border-radius: 50px;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
     width: 20px;
     height: 20px;
     border: 1px solid #fff;
