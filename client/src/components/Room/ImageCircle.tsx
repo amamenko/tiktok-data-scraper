@@ -42,17 +42,15 @@ export const ImageCircle = ({
   };
   return (
     <div className={`user_image_wrapper ${darkMode ? "dark" : ""}`}>
-      {currentlyLive ? (
-        <a
-          href={`https://www.tiktok.com/@${displayID}/live?enter_from_merge=others_homepage&enter_method=others_photo`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {renderImage()}
-        </a>
-      ) : (
-        renderImage()
-      )}
+      <a
+        href={`https://www.tiktok.com/@${displayID}${
+          currentlyLive ? "/live" : ""
+        }`}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {renderImage()}
+      </a>
     </div>
   );
 };

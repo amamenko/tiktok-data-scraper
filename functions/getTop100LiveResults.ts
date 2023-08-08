@@ -31,7 +31,7 @@ export const getTop100LiveResults = async (
         displayID: { $first: "$userInfo.displayID" },
         userID: { $first: "$userInfo.userID" },
         avatar: { $first: "$userInfo.avatar" },
-        updatedAt: { $first: "$userInfo.updatedAt" },
+        updatedAt: { $last: "$lives.updatedAt" },
       },
     },
   ]);
