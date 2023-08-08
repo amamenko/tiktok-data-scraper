@@ -11,4 +11,7 @@
     object-fit: contain;
     width: 100%;
   }
+  &.dark {
+    outline: 1px solid #30363d;
+  }
 }

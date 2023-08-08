@@ -12,4 +12,6 @@ export const contextDefaults = {
   changeDarkMode: () => {},
   showRankingHistory: false,
   changeShowRankingHistory: () => {},
+  refreshTriggered: false,
+  changeRefreshTriggered: () => {},
 };

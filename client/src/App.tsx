@@ -20,6 +20,7 @@ const App = () => {
   const [showRankingHistory, changeShowRankingHistory] = useState(false);
   const [dataLoading, changeDataLoading] = useState(false);
   const [darkMode, changeDarkMode] = useState(true);
+  const [refreshTriggered, changeRefreshTriggered] = useState(false);
 
   const getLiveData = async (type?: string) => {
     const nodeEnv = process.env.REACT_APP_NODE_ENV
@@ -96,6 +97,16 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    const refetchData = async () => {
+      changeRefreshTriggered(false);
+      changeDataLoading(true);
+      const liveData = await getLiveData();
+      changeLiveData(liveData);
+    };
+    if (refreshTriggered) refetchData();
+  }, [refreshTriggered]);
+
+  useEffect(() => {
     if (showRankingHistory && !historicalData) {
       const fetchHistoricalData = async () => {
         changeDataLoading(true);
@@ -117,6 +128,8 @@ const App = () => {
         changeDarkMode,
         showRankingHistory,
         changeShowRankingHistory,
+        refreshTriggered,
+        changeRefreshTriggered,
       }}
     >
       <div className="App">

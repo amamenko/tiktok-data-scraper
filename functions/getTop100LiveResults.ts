@@ -7,7 +7,8 @@ export const getTop100LiveResults = async (
   boundaryDatesArr: string[],
   weekStartsOnDate: Date,
   formattedCurrentDate: string,
-  weekStartsOnFormatted: string
+  weekStartsOnFormatted: string,
+  typeOfQuery: "weekly" | "history"
 ) => {
   const dailyLiveLives = await DailyLive.aggregate([
     { $match: { date: { $in: boundaryDatesArr } } },
@@ -31,7 +32,10 @@ export const getTop100LiveResults = async (
         displayID: { $first: "$userInfo.displayID" },
         userID: { $first: "$userInfo.userID" },
         avatar: { $first: "$userInfo.avatar" },
-        updatedAt: { $last: "$lives.updatedAt" },
+        updatedAt:
+          typeOfQuery === "weekly"
+            ? { $last: "$lives.updatedAt" }
+            : { $first: "$userInfo.updatedAt" },
       },
     },
   ]);

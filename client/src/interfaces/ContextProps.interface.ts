@@ -10,4 +10,6 @@ export interface ContextProps {
   changeDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   showRankingHistory: boolean;
   changeShowRankingHistory: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshTriggered: boolean;
+  changeRefreshTriggered: React.Dispatch<React.SetStateAction<boolean>>;
 }

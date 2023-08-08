@@ -8,13 +8,13 @@ const formatter = Intl.NumberFormat("en", {
   maximumFractionDigits: 1,
 });
 
-export const RoomCard = ({
-  live,
-  index,
-}: {
+interface RoomCardProps {
   live: LiveRoom;
   index: number;
-}) => {
+  resultsUpdated: number;
+}
+
+export const RoomCard = ({ live, index, resultsUpdated }: RoomCardProps) => {
   return (
     <div className="room_outer_container">
       <div className="user_rank_container">
@@ -25,6 +25,7 @@ export const RoomCard = ({
           avatar={live.avatar}
           displayID={live.displayID}
           updatedAt={live.updatedAt}
+          resultsUpdated={resultsUpdated}
         />
         <p className="user_display_id">{live.displayID}</p>
       </div>

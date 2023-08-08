@@ -7,16 +7,20 @@ interface ImageCircleProps {
   avatar: string;
   displayID: string;
   updatedAt: number;
+  resultsUpdated: number;
 }
 
 export const ImageCircle = ({
   avatar,
   displayID,
   updatedAt,
+  resultsUpdated,
 }: ImageCircleProps) => {
   const { darkMode } = useContext(AppContext);
-  const lastUpdatedMinutesAgo = differenceInMinutes(Date.now(), updatedAt);
-  const currentlyLive = lastUpdatedMinutesAgo <= 13;
+  const lastUpdatedMinutesAgo = Math.abs(
+    differenceInMinutes(resultsUpdated, updatedAt)
+  );
+  const currentlyLive = lastUpdatedMinutesAgo < 10;
   const renderImage = () => {
     return (
       <>

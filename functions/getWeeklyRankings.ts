@@ -23,6 +23,7 @@ export const getWeeklyRankings = async (req: Request, res: Response) => {
     boundaryDatesArr,
     weekStartsOnDate,
     formattedCurrentDate,
-    weekStartsOnFormatted
+    weekStartsOnFormatted,
+    "weekly"
   );
 };

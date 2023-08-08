@@ -23,6 +23,7 @@ export const getRankingHistory = async (req: Request, res: Response) => {
     boundaryDatesArr,
     weekStartsOnDate,
     formattedWeekAgo,
-    weekStartsOnFormatted
+    weekStartsOnFormatted,
+    "history"
   );
 };

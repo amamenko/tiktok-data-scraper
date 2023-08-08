@@ -4,14 +4,16 @@ import { AppContext } from "../../App";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { LiveDataList } from "./LiveDataList";
 import { PiCaretLeftBold } from "react-icons/pi";
-import "./RoomCard.scss";
 import { ClipLoader } from "react-spinners";
+import "./RoomCard.scss";
+
+interface HistoricalResultsProps {
+  historicalData: DailyLive | null;
+}
 
 export const HistoricalResults = ({
   historicalData,
-}: {
-  historicalData: DailyLive | null;
-}) => {
+}: HistoricalResultsProps) => {
   const {
     dataLoading,
     darkMode,

@@ -103,13 +103,15 @@
 }
 
 .back_header_button,
-.toggle_dark_mode_button {
+.toggle_dark_mode_button,
+.toggle_refresh_button {
   cursor: pointer;
   position: absolute;
   top: 2.5rem;
   right: 1rem;
 }
 
+.toggle_refresh_button,
 .back_header_button {
   right: auto;
   left: 1rem;
