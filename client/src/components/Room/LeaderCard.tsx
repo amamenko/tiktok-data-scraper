@@ -10,7 +10,6 @@ import "./RoomCard.scss";
 interface LeaderCardProps {
   live: LiveRoom;
   index: number;
-  resultsUpdated: number;
 }
 
 const formatter = Intl.NumberFormat("en", {
@@ -19,11 +18,7 @@ const formatter = Intl.NumberFormat("en", {
   maximumFractionDigits: 1,
 });
 
-export const LeaderCard = ({
-  live,
-  index,
-  resultsUpdated,
-}: LeaderCardProps) => {
+export const LeaderCard = ({ live, index }: LeaderCardProps) => {
   const { darkMode } = useContext(AppContext);
   return (
     <div className={`leader-card-container ${darkMode ? "dark" : ""}`}>
@@ -50,7 +45,6 @@ export const LeaderCard = ({
         avatar={live.avatar}
         displayID={live.displayID}
         updatedAt={live.updatedAt}
-        resultsUpdated={resultsUpdated}
       />
       <p className="leader-username">{live.displayID}</p>
       <p className="leader-diamonds">

@@ -11,10 +11,9 @@ const formatter = Intl.NumberFormat("en", {
 interface RoomCardProps {
   live: LiveRoom;
   index: number;
-  resultsUpdated: number;
 }
 
-export const RoomCard = ({ live, index, resultsUpdated }: RoomCardProps) => {
+export const RoomCard = ({ live, index }: RoomCardProps) => {
   return (
     <div className="room_outer_container">
       <div className="user_rank_container">
@@ -25,7 +24,6 @@ export const RoomCard = ({ live, index, resultsUpdated }: RoomCardProps) => {
           avatar={live.avatar}
           displayID={live.displayID}
           updatedAt={live.updatedAt}
-          resultsUpdated={resultsUpdated}
         />
         <p className="user_display_id">{live.displayID}</p>
       </div>

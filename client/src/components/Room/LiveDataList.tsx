@@ -14,11 +14,7 @@ export const LiveDataList = ({ liveData }: LiveDataListProps) => {
         {liveData.lives.slice(0, 3).map((live, i) => {
           return (
             <React.Fragment key={i}>
-              <LeaderCard
-                live={live}
-                index={i}
-                resultsUpdated={liveData.updatedAt}
-              />
+              <LeaderCard live={live} index={i} />
             </React.Fragment>
           );
         })}
@@ -26,11 +22,7 @@ export const LiveDataList = ({ liveData }: LiveDataListProps) => {
       {liveData.lives.slice(3).map((live, i) => {
         return (
           <React.Fragment key={i}>
-            <RoomCard
-              live={live}
-              index={i}
-              resultsUpdated={liveData.updatedAt}
-            />
+            <RoomCard live={live} index={i} />
           </React.Fragment>
         );
       })}

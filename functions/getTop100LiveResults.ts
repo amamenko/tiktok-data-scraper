@@ -32,10 +32,7 @@ export const getTop100LiveResults = async (
         displayID: { $first: "$userInfo.displayID" },
         userID: { $first: "$userInfo.userID" },
         avatar: { $first: "$userInfo.avatar" },
-        updatedAt:
-          typeOfQuery === "weekly"
-            ? { $last: "$lives.updatedAt" }
-            : { $first: "$userInfo.updatedAt" },
+        updatedAt: { $last: "$userInfo.updatedAt" },
       },
     },
   ]);
