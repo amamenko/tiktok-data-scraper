@@ -28,7 +28,11 @@ export const ImageCircle = ({
           className={`user_image_circle ${
             currentlyLive ? "live_currently" : ""
           }`}
-          src={avatar}
+          src={
+            avatar.includes(".com")
+              ? avatar
+              : `data:image/jpeg;base64,${avatar}`
+          }
           alt={`${displayID} avatar`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null; // prevents looping
