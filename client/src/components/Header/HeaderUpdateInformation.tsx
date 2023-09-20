@@ -27,7 +27,7 @@ export const HeaderUpdateInformation = ({
             })}{" "}
             <AiOutlineQuestionCircle
               data-tooltip-id="diamond-info-tooltip"
-              data-tooltip-content="Diamond count is updated every 10 minutes"
+              data-tooltip-content="Diamond count is updated every 5 minutes"
               className="info_circle"
               size={15}
               color={"rgb(149, 148, 154)"}
