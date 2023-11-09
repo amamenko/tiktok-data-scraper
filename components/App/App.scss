@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+
+.rooms_container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  max-width: 32rem;
+  text-align: center;
+  margin: 0 auto;
+  background: #fff;
+  box-sizing: border-box;
+  transition: background 0.4s ease, color 0.4s ease;
+  padding-bottom: 8rem;
+
+  .rankings_title {
+    color: #000;
+  }
+
+  &.dark {
+    background: #161b22;
+    color: #fff;
+
+    .rankings_title {
+      color: #fff;
+    }
+
+    @media only screen and (min-width: 32rem) {
+      outline: 1px solid #30363d;
+    }
+  }
+}
+
+.loader_container {
+  width: 100%;
+  margin: 10rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,344 @@
+.react-tooltip {
+  font-family: var(--font-tiktok-text);
+  font-weight: 500;
+  font-size: 0.75rem !important;
+  background: #000 !important;
+  color: #fff !important;
+  padding: 0.25rem 0.5rem !important;
+  &.dark {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+.countdown_container {
+  font-family: var(--font-tiktok-text);
+  font-weight: 700;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 1rem 2.5rem 1rem;
+  font-size: 0.85rem;
+  color: rgb(149, 148, 154);
+  .left_side_data_wrapper,
+  .right_side_data_wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .information_line {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    @media only screen and (max-width: 768px) {
+      font-size: 0.75rem;
+    }
+    &:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+    svg.info_circle {
+      cursor: pointer;
+    }
+  }
+  .countdown_number_text {
+    font-family: var(--font-tiktok-text);
+    color: #000;
+    &.dark {
+      color: #fff;
+    }
+  }
+  .left_side_data_wrapper {
+    flex: 1.5;
+  }
+  .right_side_data_wrapper {
+    flex: 1;
+    .ranking_history_button {
+      cursor: pointer;
+      display: flex;
+      align-self: flex-end;
+      align-items: center;
+      background: rgb(255, 245, 231);
+      color: rgb(218, 151, 49);
+      white-space: nowrap;
+      width: max-content;
+      padding-right: 0.75rem;
+      .ranking_medal_container {
+        position: relative;
+        display: flex;
+        margin-right: 0.5rem;
+        .vl {
+          height: 25px;
+          &:nth-child(even) {
+            border-left: 4px solid rgb(255, 208, 116);
+          }
+          &:nth-child(odd) {
+            border-left: 4px solid rgb(253, 177, 4);
+          }
+        }
+        .medal_fire_wrapper {
+          background: rgb(254, 239, 186);
+          position: absolute;
+          bottom: 0.35rem;
+          right: 0;
+          left: 0;
+          margin: 0 auto;
+          border-radius: 50px;
+          width: 13px;
+          height: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 0 2px rgb(254, 239, 186);
+          border: 2px solid rgb(255, 166, 34);
+        }
+      }
+      span {
+        @media only screen and (max-width: 768px) {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+.back_header_button,
+.toggle_dark_mode_button,
+.toggle_refresh_button {
+  cursor: pointer;
+  position: absolute;
+  top: 2.5rem;
+  right: 1rem;
+}
+
+.toggle_refresh_button,
+.back_header_button {
+  right: auto;
+  left: 1rem;
+}
+
+.rankings_title {
+  font-family: var(--font-tiktok-display);
+  font-weight: 700;
+  padding: 2rem 0 0.5rem 0;
+  font-size: 2rem;
+  text-decoration: underline;
+  margin-bottom: 1.5rem;
+}
+
+.user_image_wrapper {
+  position: relative;
+  .user_image_circle {
+    border: 3px solid #fff;
+    &.live_currently {
+      box-shadow: 0 0 0 2px rgb(252, 30, 117);
+      cursor: pointer;
+    }
+  }
+  .live_currently_icon_circle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(252, 30, 117);
+    border-radius: 50px;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+    bottom: 0.5rem;
+    right: 0;
+    left: 2.5rem;
+    margin: 0 auto;
+  }
+  &.dark {
+    .user_image_circle {
+      border: 3px solid rgb(92, 97, 104);
+    }
+    .live_currently_icon_circle {
+      border: 1px solid rgb(92, 97, 104);
+    }
+  }
+}
+
+.room_outer_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  .user_rank_container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    .user_rank_number_container {
+      width: 18.26px;
+      .user_rank_number {
+        font-family: var(--font-tiktok-text);
+        font-weight: 600;
+        color: rgb(149, 148, 154);
+        text-align: center;
+      }
+    }
+  }
+
+  .user_image_circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    position: relative;
+    &.live_currently {
+      box-shadow: 0 0 0 2px rgb(252, 30, 117);
+      cursor: pointer;
+    }
+  }
+
+  .user_display_id {
+    color: #000;
+    font-family: var(--font-tiktok-display);
+    font-weight: 600;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    width: 40%;
+    @media only screen and (max-width: 400px) {
+      font-size: 0.9rem;
+    }
+  }
+
+  .diamonds_container {
+    .diamonds_count {
+      font-family: var(--font-tiktok-text);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: rgb(149, 148, 154);
+    }
+  }
+  &.dark {
+    .user_display_id {
+      color: #fff;
+    }
+  }
+}
+
+.leader-cards-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "column-2 column-1 column-3";
+  gap: 0.25rem;
+  margin: 0 1rem;
+  align-items: flex-end;
+  justify-items: center;
+  .leader-card-container {
+    position: relative;
+    background: rgb(248, 248, 248);
+    border-radius: 2px;
+    height: 92.5%;
+    width: 100%;
+    @media only screen and (max-width: 375px) {
+      width: 105px;
+      max-width: 105px;
+    }
+    @media only screen and (min-width: 376px) and (max-width: 419px) {
+      width: 115px;
+      max-width: 115px;
+    }
+    @media only screen and (min-width: 420px) and (max-width: 512px) {
+      width: 128.29px;
+      max-width: 128.29px;
+    }
+    &.dark {
+      background: rgb(42, 47, 54);
+      img.rank-designator {
+        opacity: 0.65;
+      }
+    }
+    img.rank-designator {
+      position: absolute;
+      right: -12px;
+      top: -2px;
+      opacity: 1;
+      height: auto;
+      &.one {
+        right: -17px;
+        top: -4px;
+      }
+      &.two {
+        right: -4px;
+      }
+      &.three {
+        right: -2px;
+      }
+    }
+    .user_image_wrapper {
+      position: relative;
+      .user_image_circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        border: 3px solid #fff;
+        position: relative;
+        &.outline_currently {
+          box-shadow: 0 0 0 2px rgb(252, 30, 117);
+        }
+      }
+      .live_currently_icon_circle {
+        left: 3rem;
+      }
+      &.dark {
+        .user_image_circle {
+          border: 3px solid rgb(92, 97, 104);
+        }
+        .live_currently_icon_circle {
+          border: 1px solid rgb(92, 97, 104);
+        }
+      }
+    }
+    .leader-username {
+      font-family: var(--font-tiktok-display);
+      font-weight: 700;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      text-align: center;
+      width: 65%;
+      margin: 0 auto;
+      color: #000;
+    }
+    .leader-diamonds {
+      font-family: var(--font-tiktok-text);
+      font-weight: 700;
+      margin: 0.3rem 0 0.75rem 0;
+      font-size: 0.85rem;
+      color: rgb(158, 158, 158);
+    }
+    &.dark {
+      .leader-username {
+        color: #fff;
+      }
+    }
+  }
+  .leader-card-container:nth-child(1) {
+    grid-area: column-1;
+    height: 100%;
+    .user_image_circle {
+      width: 65px;
+      height: 65px;
+    }
+  }
+  .leader-card-container:nth-child(2) {
+    grid-area: column-2;
+  }
+  .leader-card-container:nth-child(3) {
+    grid-area: column-3;
+  }
+}
