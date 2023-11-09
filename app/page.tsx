@@ -3,7 +3,7 @@ import App from "@/components/App/App";
 import { getDateBoundaries } from "./functions/getDateBoundaries";
 import { getTop100LiveResults } from "./functions/getTop100LiveResults";
 
-export const connectToMongoDB = async () => {
+const connectToMongoDB = async () => {
   try {
     await clientPromise;
     return { isConnected: true };
@@ -13,7 +13,7 @@ export const connectToMongoDB = async () => {
   }
 };
 
-export const getWeeklyTop100LiveResults = async () => {
+const getWeeklyTop100LiveResults = async () => {
   const {
     boundaryDatesArr,
     weekStartsOnDate,
