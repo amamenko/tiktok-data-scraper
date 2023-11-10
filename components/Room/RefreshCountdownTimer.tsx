@@ -12,16 +12,11 @@ export const RefreshCountdownTimer = ({
 
   useEffect(() => {
     if (liveData?.refreshAt && !endDate) {
-      console.log({
-        refreshAt: liveData.refreshAt,
-        dateRefreshAt: new Date(liveData.refreshAt),
-      });
       changeEndDate(new Date(liveData.refreshAt));
     }
   }, [endDate, liveData?.refreshAt]);
 
   if (endDate) {
-    console.log({ endDate });
     return (
       <Countdown
         date={endDate}
