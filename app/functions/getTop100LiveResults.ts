@@ -57,7 +57,6 @@ export const getTop100LiveResults = async (
       refreshAt: weekEndsOnDateUnix,
       lives: topHundredLivesUnixUpdated,
       updatedAt: getUnixTime(dailyLiveGen[0]?.updatedAt) * 1000,
-      serverTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     return responseObj;
