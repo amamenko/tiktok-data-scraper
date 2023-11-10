@@ -3,8 +3,7 @@ import App from "@/components/App/App";
 import { getDateBoundaries } from "./functions/getDateBoundaries";
 import { getTop100LiveResults } from "./functions/getTop100LiveResults";
 
-// Will revalidate at most every 5 minutes
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 const connectToMongoDB = async () => {
   try {
