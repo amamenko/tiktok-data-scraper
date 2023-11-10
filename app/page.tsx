@@ -3,6 +3,8 @@ import App from "@/components/App/App";
 import { getDateBoundaries } from "./functions/getDateBoundaries";
 import { getTop100LiveResults } from "./functions/getTop100LiveResults";
 
+export const dynamic = "force-dynamic";
+
 const connectToMongoDB = async () => {
   try {
     await clientPromise;
