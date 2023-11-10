@@ -16,10 +16,6 @@ export const HeaderUpdateInformation = ({
     useContext(AppContext);
   const handleToggleRankingHistory = () =>
     changeShowRankingHistory(!showRankingHistory);
-  console.log({
-    updatedAt: liveData.updatedAt,
-    dateUpdatedAt: new Date(liveData.updatedAt),
-  });
   return (
     <div className="countdown_container">
       <div className="left_side_data_wrapper">
