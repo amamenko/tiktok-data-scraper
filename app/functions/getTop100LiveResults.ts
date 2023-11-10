@@ -52,15 +52,12 @@ export const getTop100LiveResults = async (
       .project({ date: 1, updatedAt: 1 })
       .toArray();
 
-    console.log({
-      currentTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
-
     const responseObj = {
       weekStarting: weekStartsOnFormatted,
       refreshAt: weekEndsOnDateUnix,
       lives: topHundredLivesUnixUpdated,
       updatedAt: getUnixTime(dailyLiveGen[0]?.updatedAt) * 1000,
+      serverTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     return responseObj;

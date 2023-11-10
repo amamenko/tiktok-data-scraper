@@ -34,5 +34,6 @@ const getWeeklyTop100LiveResults = async () => {
 export default async function Home() {
   const connected = await connectToMongoDB();
   const top100WeeklyLives = await getWeeklyTop100LiveResults();
+  console.log({ top100WeeklyLives });
   return <App top100WeeklyLives={top100WeeklyLives} />;
 }
