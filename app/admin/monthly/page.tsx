@@ -6,10 +6,23 @@ import { MonthlyData } from "@/components/Admin/MonthlyData";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Admin | Royalty Talent Agency",
+  title: "Admin | Monthly Diamond Counts | Royalty Talent Agency",
   description:
-    "Admin page for the Royalty Talent Agency regarding Tik Tok daily diamonds.",
+    "Admin page for the Royalty Talent Agency. Monthly Tik Tok diamonds for the agency.",
   metadataBase: new URL("https://royaltyrankings.vercel.app/admin/monthly"),
+  openGraph: {
+    title: "Admin | Monthly Diamond Counts | Royalty Talent Agency",
+    description:
+      "Admin page for the Royalty Talent Agency. Monthly Tik Tok diamonds for the agency.",
+    url: new URL("https://royaltyrankings.vercel.app/admin/monthly"),
+    images: "/opengraph-image.jpg",
+  },
+  twitter: {
+    title: "Admin | Monthly Diamond Counts | Royalty Talent Agency",
+    card: "summary_large_image",
+    site: "https://royaltyrankings.vercel.app/admin/monthly",
+    images: "/twitter-image.jpg",
+  },
 };
 
 const aggregateMonthlyDiamonds = async () => {
