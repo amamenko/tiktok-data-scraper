@@ -3,5 +3,5 @@ import { getMonthlyCounts } from "@/app/functions/getMonthlyCounts";
 
 export async function GET(req: NextRequest) {
   const monthlyCountsResponse = await getMonthlyCounts();
-  NextResponse.json(monthlyCountsResponse);
+  return NextResponse.json(monthlyCountsResponse);
 }
