@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { AppContext } from "../App/App";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 export const RefreshCountdownTimer = ({
   handleComplete,
@@ -8,7 +9,8 @@ export const RefreshCountdownTimer = ({
   handleComplete?: () => void;
 }) => {
   const [endDate, changeEndDate] = useState<string | Date>("");
-  const { liveData, darkMode } = useContext(AppContext);
+  const { liveData } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (liveData?.refreshAt && !endDate) {

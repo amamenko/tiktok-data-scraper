@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AppContext } from "../App/App";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 export const HeaderSection = ({
   title,
@@ -8,7 +8,7 @@ export const HeaderSection = ({
   title: string;
   data: string;
 }) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
 
   return (
     <div className={`header_stats_container ${darkMode ? "dark" : ""}`}>

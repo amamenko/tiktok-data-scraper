@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { AppContext } from "../App/App";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 export const DarkModeToggle = () => {
-  const { darkMode, changeDarkMode } = useContext(AppContext);
+  const { darkMode, changeDarkMode } = useContext(ThemeContext);
   const toggleDarkMode = () => changeDarkMode(!darkMode);
   return (
     <div className="toggle_dark_mode_button">

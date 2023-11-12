@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Providers } from "@/components/Providers/Providers";
+import SessionProvider from "@/components/Providers/SessionProvider";
+import { getServerSession } from "next-auth";
 import "./globals.css";
 
 const tikTokDisplayFont = localFont({
@@ -64,17 +67,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body
         className={`${tikTokDisplayFont.className} ${tikTokTextFont.className}`}
       >
-        {children}
+        <SessionProvider session={session}>
+          <Providers>{children}</Providers>
+        </SessionProvider>
       </body>
     </html>
   );

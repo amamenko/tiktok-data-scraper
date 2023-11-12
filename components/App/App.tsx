@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import { contextDefaults } from "../../contextDefaults";
 import { ClipLoader } from "react-spinners";
@@ -8,6 +14,7 @@ import { DailyLive } from "@/interfaces/DailyLive.interface";
 import { HeaderLogo } from "../Header/HeaderLogo";
 import { HistoricalResults } from "../Room/HistoricalResults";
 import { RoomResults } from "../Room/RoomResults";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./App.scss";
 
 export const AppContext = createContext<ContextProps>(contextDefaults);
@@ -17,6 +24,7 @@ interface AppProps {
 }
 
 const App = ({ top100WeeklyLives }: AppProps) => {
+  const { darkMode, changeDarkMode } = useContext(ThemeContext);
   const [liveData, changeLiveData] = useState<DailyLive | null>(
     top100WeeklyLives
   );
@@ -26,7 +34,6 @@ const App = ({ top100WeeklyLives }: AppProps) => {
 
   const [showRankingHistory, changeShowRankingHistory] = useState(false);
   const [dataLoading, changeDataLoading] = useState(false);
-  const [darkMode, changeDarkMode] = useState(true);
   const [refreshTriggered, changeRefreshTriggered] = useState(false);
 
   const getLiveData = async (type?: string) => {
@@ -110,8 +117,6 @@ const App = ({ top100WeeklyLives }: AppProps) => {
         changeLiveData,
         dataLoading,
         changeDataLoading,
-        darkMode,
-        changeDarkMode,
         showRankingHistory,
         changeShowRankingHistory,
         refreshTriggered,

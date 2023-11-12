@@ -4,10 +4,11 @@ import { AppContext } from "../App/App";
 import axios from "axios";
 import { addMinutes, format } from "date-fns";
 import { LiveRoom } from "../../interfaces/LiveRoom.interface";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 export const SelectDate = () => {
-  const { changeDataLoading, changeLiveData, darkMode } =
-    useContext(AppContext);
+  const { changeDataLoading, changeLiveData } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   const maxDate = addMinutes(new Date(), new Date().getTimezoneOffset());
   const [startDate, setStartDate] = useState(maxDate);
   const [datePickerOpen, changeDatePickerOpen] = useState(false);

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import RoyaltyTalentLogo from "../../public/RoyaltyTalentLogo.png";
-import { AppContext } from "../App/App";
 import Image from "next/image";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./HeaderLogo.scss";
 
 export const HeaderLogo = () => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   return (
     <div className={`header_logo_container ${darkMode ? "dark" : ""}`}>
       <Image

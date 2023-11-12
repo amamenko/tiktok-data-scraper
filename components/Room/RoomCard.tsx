@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { LiveRoom } from "../../interfaces/LiveRoom.interface";
 import { ImageCircle } from "./ImageCircle";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./RoomCard.scss";
-import { AppContext } from "../App/App";
 
 const formatter = Intl.NumberFormat("en", {
   notation: "compact",
@@ -16,7 +16,7 @@ interface RoomCardProps {
 }
 
 export const RoomCard = ({ live, index }: RoomCardProps) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   return (
     <div className={`room_outer_container ${darkMode ? "dark" : ""}`}>
       <div className="user_rank_container">

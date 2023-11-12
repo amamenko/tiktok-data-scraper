@@ -3,11 +3,13 @@ import { AppContext } from "../App/App";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
 import { SelectDate } from "./SelectDate";
 import { HeaderSection } from "./HeaderSection";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Header.scss";
 
 export const Header = () => {
-  const { liveData, darkMode, changeDarkMode } = useContext(AppContext);
+  const { liveData } = useContext(AppContext);
+  const { darkMode, changeDarkMode } = useContext(ThemeContext);
   const sumDiamonds = liveData
     ? liveData.lives.reduce((a, b) => a + b.diamonds, 0)
     : 0;

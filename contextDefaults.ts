@@ -8,8 +8,6 @@ export const contextDefaults = {
     updatedAt: 0,
   },
   changeLiveData: () => {},
-  darkMode: true,
-  changeDarkMode: () => {},
   showRankingHistory: false,
   changeShowRankingHistory: () => {},
   refreshTriggered: false,

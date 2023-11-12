@@ -1,0 +1,135 @@
+.admin_login_page {
+  background: #afafaf;
+  &.dark {
+    background: #000;
+  }
+  h1 {
+    font-family: var(--font-tiktok-display);
+    font-weight: 700;
+    font-size: 2rem;
+    text-decoration: underline;
+    color: #000;
+    &.dark {
+      color: #fff;
+    }
+  }
+
+  .toggle_dark_mode_button {
+    cursor: pointer;
+  }
+}
+
+.admin_login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 512px;
+  background: #fff;
+  margin: 0 auto;
+  padding: 2rem 0;
+  padding-bottom: 15rem;
+  gap: 1rem;
+  &.dark {
+    background: #161b22;
+    outline: 1px solid #30363d;
+  }
+  .admin_login_header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem 1.5rem 1rem;
+  }
+}
+
+.form_input_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  label {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-tiktok-text);
+  }
+
+  input {
+    font-family: var(--font-tiktok-text);
+    min-width: 310px;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    border-radius: 4px;
+  }
+
+  &.dark {
+    label {
+      color: #fff;
+    }
+  }
+}
+
+.admin_or_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  .admin_or_text {
+    text-align: center;
+    z-index: 10;
+    background: #fff;
+    padding: 0 1rem;
+  }
+  .admin_or_divider {
+    position: absolute;
+    min-width: 310px;
+    background: #161b22;
+    height: 1px;
+  }
+  &.dark {
+    .admin_or_text {
+      background: #161b22;
+      color: #fff;
+    }
+    .admin_or_divider {
+      background: #fff;
+    }
+  }
+}
+
+button.admin_google_login_button,
+button.admin_login_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 310px;
+  margin-top: 1rem;
+  border-radius: 4px;
+  height: 3rem;
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-family: var(--font-tiktok-display);
+}
+
+button.admin_google_login_button {
+  background: rgb(239, 68, 68);
+  border: 1px solid rgb(239, 68, 68);
+}
+
+button.admin_login_button {
+  background: rgb(37, 99, 235);
+  border: 1px solid rgb(37, 99, 235);
+}
+
+.admin_error_text {
+  color: rgb(225, 68, 68);
+  margin-top: 1rem;
+  font-weight: 500;
+}

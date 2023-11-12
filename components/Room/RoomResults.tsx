@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { DailyLive } from "../../interfaces/DailyLive.interface";
-import { AppContext } from "../App/App";
 import { Tooltip } from "react-tooltip";
 import { HeaderUpdateInformation } from "../Header/HeaderUpdateInformation";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { LiveDataList } from "./LiveDataList";
 import { RefreshResultsToggle } from "./RefreshResultsToggle";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./RoomCard.scss";
 import "react-tooltip/dist/react-tooltip.css";
 
 export const RoomResults = ({ liveData }: { liveData: DailyLive }) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   return (
     <div className={`rooms_container ${darkMode ? "dark" : ""}`}>
       <DarkModeToggle />

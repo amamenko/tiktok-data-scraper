@@ -5,6 +5,7 @@ import { DarkModeToggle } from "./DarkModeToggle";
 import { LiveDataList } from "./LiveDataList";
 import { PiCaretLeftBold } from "react-icons/pi";
 import { ClipLoader } from "react-spinners";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./RoomCard.scss";
 
 interface HistoricalResultsProps {
@@ -14,12 +15,9 @@ interface HistoricalResultsProps {
 export const HistoricalResults = ({
   historicalData,
 }: HistoricalResultsProps) => {
-  const {
-    dataLoading,
-    darkMode,
-    showRankingHistory,
-    changeShowRankingHistory,
-  } = useContext(AppContext);
+  const { dataLoading, showRankingHistory, changeShowRankingHistory } =
+    useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   const handleToggleRankingHistory = () =>
     changeShowRankingHistory(!showRankingHistory);
   return (

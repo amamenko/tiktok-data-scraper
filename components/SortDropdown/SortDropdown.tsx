@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Select from "react-select";
-import { AppContext } from "../App/App";
 import { handleSelectOptionChange } from "../../functions/handleSelectOptionChange";
 import { DailyLive } from "../../interfaces/DailyLive.interface";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./SortDropdown.scss";
 
 export const SortDropdown = ({
@@ -12,7 +12,7 @@ export const SortDropdown = ({
   liveData: DailyLive;
   changeLiveData: React.Dispatch<React.SetStateAction<DailyLive | null>>;
 }) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   const options = [
     { value: "most_diamonds", label: "Most diamonds" },
     { value: "least_diamonds", label: "Least diamonds" },

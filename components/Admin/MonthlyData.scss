@@ -1,0 +1,92 @@
+.monthly_data_page {
+  background: #afafaf !important;
+  &.dark {
+    background: #000 !important;
+  }
+  max-width: 100% !important;
+  padding: 0 !important;
+  h1 {
+    font-family: var(--font-tiktok-display);
+    font-weight: 700;
+    font-size: 2rem;
+    text-decoration: underline;
+    color: #000;
+    &.dark {
+      color: #fff;
+    }
+  }
+}
+
+.monthly_data_content {
+  background: #fff;
+  max-width: 512px;
+  margin: 0 auto;
+  padding-bottom: 25rem;
+  &.dark {
+    background: #161b22;
+    outline: 1px solid #30363d;
+  }
+}
+
+.header_logo_container {
+  position: relative;
+}
+
+.log_out_button {
+  cursor: pointer;
+}
+
+.admin_monthly_data_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 1.5rem 1rem;
+  .toggle_dark_mode_button {
+    cursor: pointer;
+  }
+}
+
+.monthly_total_table {
+  width: 100%;
+  padding: 0 1rem;
+  .monthly_data_body {
+    width: 100%;
+    td {
+      text-align: center;
+    }
+    tr {
+      width: 100%;
+      td {
+        text-align: center;
+        padding-bottom: 1rem;
+        &:first-child {
+          text-align: left;
+        }
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+  .monthly_data_headers,
+  .monthly_data_container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .monthly_data_headers {
+    font-weight: 600;
+    text-decoration: underline;
+    margin-bottom: 1rem;
+    tr {
+      th {
+        padding-bottom: 1rem;
+        &:first-child {
+          text-align: left;
+        }
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

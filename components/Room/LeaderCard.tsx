@@ -4,8 +4,8 @@ import numberOne from "../../public/numberOne.svg";
 import numberTwo from "../../public/numberTwo.svg";
 import numberThree from "../../public/numberThree.svg";
 import { useContext } from "react";
-import { AppContext } from "../App/App";
 import Image from "next/image";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "./RoomCard.scss";
 
 interface LeaderCardProps {
@@ -20,7 +20,7 @@ const formatter = Intl.NumberFormat("en", {
 });
 
 export const LeaderCard = ({ live, index }: LeaderCardProps) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   return (
     <div className={`leader-card-container ${darkMode ? "dark" : ""}`}>
       {index === 0 ? (
@@ -29,7 +29,6 @@ export const LeaderCard = ({ live, index }: LeaderCardProps) => {
           src={numberOne}
           alt="Number one rank"
           width={55}
-          // height={71.7}
         />
       ) : index === 1 ? (
         <Image
@@ -37,7 +36,6 @@ export const LeaderCard = ({ live, index }: LeaderCardProps) => {
           src={numberTwo}
           alt="Number two rank"
           width={50}
-          // height={64.7}
         />
       ) : (
         <Image
@@ -45,7 +43,6 @@ export const LeaderCard = ({ live, index }: LeaderCardProps) => {
           src={numberThree}
           alt="Number three rank"
           width={50}
-          // height={64.7}
         />
       )}
       <ImageCircle

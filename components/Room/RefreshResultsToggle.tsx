@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { AppContext } from "../App/App";
 import { IoRefresh } from "react-icons/io5";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 export const RefreshResultsToggle = () => {
-  const { darkMode, changeRefreshTriggered } = useContext(AppContext);
+  const { changeRefreshTriggered } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   const toggleRefresh = () => changeRefreshTriggered(true);
   return (
     <div className="toggle_refresh_button">

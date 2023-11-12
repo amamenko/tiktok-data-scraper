@@ -3,6 +3,7 @@ import { AppContext } from "../App/App";
 import { BsBarChartFill } from "react-icons/bs";
 import { differenceInMinutes } from "date-fns";
 import Image from "next/image";
+import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 
 interface ImageCircleProps {
   avatar: string;
@@ -15,7 +16,7 @@ export const ImageCircle = ({
   displayID,
   updatedAt,
 }: ImageCircleProps) => {
-  const { darkMode } = useContext(AppContext);
+  const { darkMode } = useContext(ThemeContext);
   const lastUpdatedMinutesAgo = Math.abs(
     differenceInMinutes(Date.now(), updatedAt)
   );
