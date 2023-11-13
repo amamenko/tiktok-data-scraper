@@ -1,15 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { ClipLoader } from "react-spinners";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import { BiLogOut } from "react-icons/bi";
 import { HeaderLogo } from "../Header/HeaderLogo";
-import "./MonthlyData.scss";
-import "../App/App.scss";
 import { DarkModeToggle } from "../Room/DarkModeToggle";
 import { format } from "date-fns";
+import "./MonthlyData.scss";
+import "../App/App.scss";
 
 const formatter = Intl.NumberFormat("en", {
   notation: "compact",
@@ -50,8 +49,8 @@ export const MonthlyData = ({ monthlyData }: MonthlyDataProps) => {
           <h1 className={`${darkMode ? "dark" : ""}`}>Monthly totals</h1>
           <DarkModeToggle />
         </div>
-        <table className="monthly_total_table">
-          <thead className="monthly_data_headers">
+        <table className={`monthly_total_table ${darkMode ? "dark" : ""}`}>
+          <thead className={`monthly_data_headers ${darkMode ? "dark" : ""}`}>
             <tr>
               <th>Month</th>
               <th>Total 💎</th>
@@ -70,7 +69,10 @@ export const MonthlyData = ({ monthlyData }: MonthlyDataProps) => {
               };
 
               return (
-                <tr className="monthly_data_container" key={data._id}>
+                <tr
+                  className={`monthly_data_container ${darkMode ? "dark" : ""}`}
+                  key={data._id}
+                >
                   <td>{format(new Date(startOfMonth), "MMM yyyy")}</td>
                   <td>{data.diamonds?.toLocaleString()}</td>
                   <td>

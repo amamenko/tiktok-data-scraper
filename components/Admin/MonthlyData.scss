@@ -59,6 +59,7 @@
       td {
         text-align: center;
         padding-bottom: 1rem;
+        color: #000;
         &:first-child {
           text-align: left;
         }
@@ -68,14 +69,32 @@
       }
     }
   }
+  th {
+    color: #000;
+  }
+  &.dark {
+    th,
+    td {
+      color: #fff;
+    }
+  }
   .monthly_data_headers,
   .monthly_data_container {
     width: 100%;
     padding: 0 1rem;
+    &.dark {
+      td {
+        color: #fff;
+      }
+    }
   }
   .monthly_data_headers {
     font-weight: 600;
     text-decoration: underline;
+    text-decoration-color: #000;
+    &.dark {
+      text-decoration-color: #fff;
+    }
     margin-bottom: 1rem;
     tr {
       th {
