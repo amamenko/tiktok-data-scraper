@@ -1,20 +1,24 @@
 import React, { useContext } from "react";
-import { AppContext } from "../App/App";
 import { BsBarChartFill } from "react-icons/bs";
 import { differenceInMinutes } from "date-fns";
 import Image from "next/image";
 import { ThemeContext } from "../Providers/Theme/ThemeProvider";
+import { TopDiamondBorder } from "./TopDiamondBorder";
 
 interface ImageCircleProps {
   avatar: string;
   displayID: string;
   updatedAt: number;
+  index: number;
+  lastWeekRank?: number;
 }
 
 export const ImageCircle = ({
   avatar,
   displayID,
   updatedAt,
+  index,
+  lastWeekRank,
 }: ImageCircleProps) => {
   const { darkMode } = useContext(ThemeContext);
   const lastUpdatedMinutesAgo = Math.abs(
@@ -42,6 +46,7 @@ export const ImageCircle = ({
           width={50}
           height={50}
         />
+        <TopDiamondBorder lastWeekRank={lastWeekRank} index={index} />
         {currentlyLive && (
           <span className="live_currently_icon_circle">
             <BsBarChartFill color="#fff" size={9} />

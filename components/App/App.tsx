@@ -38,7 +38,11 @@ const App = ({ top100WeeklyLives }: AppProps) => {
 
   const getLiveData = async (type?: string) => {
     const liveArr = await axios
-      .get(`/api/weekly_rankings${type === "history" ? "?isWeekAgo=true" : ""}`)
+      .get(
+        type === "history"
+          ? "/api/previous_week_top_100"
+          : "/api/weekly_rankings"
+      )
       .then((res) => res.data)
       .then((data) => {
         changeDataLoading(false);

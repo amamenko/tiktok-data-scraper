@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/set_previous_week_rankings",
+      "schedule": "1 5 * * *"
+    }
+  ]
+}

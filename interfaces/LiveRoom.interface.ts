@@ -6,4 +6,5 @@ export interface LiveRoom {
   diamonds: number;
   createdAt: string;
   updatedAt: number;
+  lastWeekRank?: number;
 }

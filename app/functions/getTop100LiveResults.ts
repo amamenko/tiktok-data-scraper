@@ -42,8 +42,18 @@ export const getTop100LiveResults = async (
       .toArray();
     dailyLiveLives.sort((a, b) => b.diamonds - a.diamonds);
     const topHundredLives = dailyLiveLives.slice(0, 100);
+    const foundDoc = await db.collection("previousweektop100").findOne();
+    const foundPreviousWeekTop100Lives = Array.from(foundDoc?.lives) || [];
     const topHundredLivesUnixUpdated = topHundredLives.map((live) => {
-      return { ...live, updatedAt: getUnixTime(live.updatedAt) * 1000 };
+      const foundPreviousWeekRank = foundPreviousWeekTop100Lives?.findIndex(
+        (prevLive: any) => prevLive._id === live._id
+      );
+      return {
+        ...live,
+        updatedAt: getUnixTime(live.updatedAt) * 1000,
+        lastWeekRank:
+          foundPreviousWeekRank === undefined ? -1 : foundPreviousWeekRank,
+      };
     });
     const weekEndsOnDateUnix = getUnixTime(addDays(weekStartsOnDate, 7)) * 1000;
     const dailyLiveGen = await db
@@ -58,7 +68,6 @@ export const getTop100LiveResults = async (
       lives: topHundredLivesUnixUpdated,
       updatedAt: getUnixTime(dailyLiveGen[0]?.updatedAt) * 1000,
     };
-
     return responseObj;
   } catch (e) {
     if (process.env.NODE_ENV === "production") {

@@ -49,6 +49,8 @@ export const LeaderCard = ({ live, index }: LeaderCardProps) => {
         avatar={live.avatar}
         displayID={live.displayID}
         updatedAt={live.updatedAt}
+        lastWeekRank={live.lastWeekRank}
+        index={index}
       />
       <p className="leader-username">{live.displayID}</p>
       <p className="leader-diamonds">

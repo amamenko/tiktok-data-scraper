@@ -27,6 +27,8 @@ export const RoomCard = ({ live, index }: RoomCardProps) => {
           avatar={live.avatar}
           displayID={live.displayID}
           updatedAt={live.updatedAt}
+          lastWeekRank={live.lastWeekRank}
+          index={index + 3}
         />
         <p className="user_display_id">{live.displayID}</p>
       </div>
