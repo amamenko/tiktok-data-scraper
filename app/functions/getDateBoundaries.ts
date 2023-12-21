@@ -1,8 +1,10 @@
 import { format, startOfWeek, addDays, subDays } from "date-fns";
 
 process.env.TZ = "America/New_York";
-export const getDateBoundaries = (isWeekAgo?: boolean) => {
-  const beginningDay = isWeekAgo ? subDays(new Date(), 7) : new Date();
+export const getDateBoundaries = (weeksAgo?: number) => {
+  const beginningDay = weeksAgo
+    ? subDays(new Date(), weeksAgo * 7)
+    : new Date();
   const formattedBeginningDay = format(beginningDay, "MM/dd/yyyy");
 
   const weekStartsOnDate = startOfWeek(beginningDay); // Sunday

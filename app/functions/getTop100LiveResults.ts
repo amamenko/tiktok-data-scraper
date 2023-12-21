@@ -1,6 +1,7 @@
 import { addDays, getUnixTime } from "date-fns";
 import { logger } from "@/lib/logger";
 import clientPromise from "@/lib/mongodb";
+import { getWeekStart } from "@/utils/getWeekStart";
 
 export const getTop100LiveResults = async (
   boundaryDatesArr: string[],
@@ -42,8 +43,12 @@ export const getTop100LiveResults = async (
       .toArray();
     dailyLiveLives.sort((a, b) => b.diamonds - a.diamonds);
     const topHundredLives = dailyLiveLives.slice(0, 100);
-    const foundDoc = await db.collection("previousweektop100").findOne();
-    const foundPreviousWeekTop100Lives = Array.from(foundDoc?.lives) || [];
+    const previousWeekStart = getWeekStart(1);
+    const foundPreviousWeekDoc = await db
+      .collection("previousweektop100")
+      .findOne({ weekStarting: previousWeekStart });
+    const foundPreviousWeekTop100Lives =
+      Array.from(foundPreviousWeekDoc?.lives) || [];
     const topHundredLivesUnixUpdated = topHundredLives.map((live) => {
       const foundPreviousWeekRank = foundPreviousWeekTop100Lives?.findIndex(
         (prevLive: any) => prevLive._id === live._id

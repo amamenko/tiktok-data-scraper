@@ -3,18 +3,17 @@ import { getTop100LiveResults } from "@/app/functions/getTop100LiveResults";
 import { getDateBoundaries } from "@/app/functions/getDateBoundaries";
 import clientPromise from "@/lib/mongodb";
 import { logger } from "@/lib/logger";
-import { format, startOfWeek, sub } from "date-fns";
+import { getWeekStart } from "@/utils/getWeekStart";
 
 export async function GET(req: NextRequest) {
-  const isWeekAgo = true;
-  const previousWeekStart = format(
-    startOfWeek(
-      sub(new Date(), {
-        weeks: 1,
-      })
-    ),
-    "MM/dd/yyyy"
-  );
+  const previousWeekStart = getWeekStart(1);
+  const twoWeeksAgoStart = getWeekStart(2);
+
+  // Week starts to delete
+  const threeWeeksAgoStart = getWeekStart(3);
+  const fourWeeksAgoStart = getWeekStart(4);
+  const fiveWeeksAgoStart = getWeekStart(5);
+  const sixWeeksAgoStart = getWeekStart(6);
 
   try {
     const client = await clientPromise;
@@ -25,8 +24,42 @@ export async function GET(req: NextRequest) {
     });
 
     if (!foundDoc) {
-      // First clear out all previous week's data
-      await db.collection("previousweektop100").deleteMany();
+      // First clear out all outdated weeks' data - only keep 2 weeks' worth
+      await db.collection("previousweektop100").deleteMany({
+        weekStarting: {
+          $in: [
+            threeWeeksAgoStart,
+            fourWeeksAgoStart,
+            fiveWeeksAgoStart,
+            sixWeeksAgoStart,
+          ],
+        },
+      });
+
+      const twoWeeksAgoDoc = await db.collection("previousweektop100").findOne({
+        weekStarting: twoWeeksAgoStart,
+      });
+
+      if (!twoWeeksAgoDoc) {
+        // Get two weeks ago data
+        const {
+          boundaryDatesArr,
+          weekStartsOnDate,
+          formattedBeginningDay,
+          weekStartsOnFormatted,
+        } = getDateBoundaries(2);
+
+        const twoWeeksAgoResultResponse = await getTop100LiveResults(
+          boundaryDatesArr,
+          weekStartsOnDate,
+          formattedBeginningDay,
+          weekStartsOnFormatted
+        );
+
+        await db
+          .collection("previousweektop100")
+          .insertOne(twoWeeksAgoResultResponse);
+      }
 
       // Then insert the new data
       const {
@@ -34,7 +67,7 @@ export async function GET(req: NextRequest) {
         weekStartsOnDate,
         formattedBeginningDay,
         weekStartsOnFormatted,
-      } = getDateBoundaries(!!isWeekAgo);
+      } = getDateBoundaries(1);
 
       const resultResponse = await getTop100LiveResults(
         boundaryDatesArr,
