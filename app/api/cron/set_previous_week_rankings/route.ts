@@ -7,9 +7,9 @@ import { getWeekStart } from "@/utils/getWeekStart";
 
 export async function GET(req: NextRequest) {
   const previousWeekStart = getWeekStart(1);
-  const twoWeeksAgoStart = getWeekStart(2);
 
   // Week starts to delete
+  const twoWeeksAgoStart = getWeekStart(2);
   const threeWeeksAgoStart = getWeekStart(3);
   const fourWeeksAgoStart = getWeekStart(4);
   const fiveWeeksAgoStart = getWeekStart(5);
@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
       await db.collection("previousweektop100").deleteMany({
         weekStarting: {
           $in: [
+            twoWeeksAgoStart,
             threeWeeksAgoStart,
             fourWeeksAgoStart,
             fiveWeeksAgoStart,
@@ -35,31 +36,6 @@ export async function GET(req: NextRequest) {
           ],
         },
       });
-
-      const twoWeeksAgoDoc = await db.collection("previousweektop100").findOne({
-        weekStarting: twoWeeksAgoStart,
-      });
-
-      if (!twoWeeksAgoDoc) {
-        // Get two weeks ago data
-        const {
-          boundaryDatesArr,
-          weekStartsOnDate,
-          formattedBeginningDay,
-          weekStartsOnFormatted,
-        } = getDateBoundaries(2);
-
-        const twoWeeksAgoResultResponse = await getTop100LiveResults(
-          boundaryDatesArr,
-          weekStartsOnDate,
-          formattedBeginningDay,
-          weekStartsOnFormatted
-        );
-
-        await db
-          .collection("previousweektop100")
-          .insertOne(twoWeeksAgoResultResponse);
-      }
 
       // Then insert the new data
       const {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { logger } from "@/lib/logger";
 import { getWeekStart } from "@/utils/getWeekStart";
+import { LiveRoom } from "@/interfaces/LiveRoom.interface";
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,20 +16,10 @@ export async function GET(req: NextRequest) {
       .findOne({ weekStarting: previousWeekStart });
 
     if (foundDoc) {
-      const twoWeeksAgoStart = getWeekStart(2);
-      const foundTwoWeeksAgoDoc = await db
-        .collection("previousweektop100")
-        .findOne({ weekStarting: twoWeeksAgoStart });
-      const foundTwoWeeksAgoTop100Lives =
-        Array.from(foundTwoWeeksAgoDoc?.lives) || [];
-      const modifiedLives = foundDoc.lives.map((live: any) => {
-        const foundPreviousWeekRank = foundTwoWeeksAgoTop100Lives?.findIndex(
-          (prevLive: any) => prevLive._id === live._id
-        );
+      const modifiedLives = foundDoc.lives.map((live: LiveRoom, i: number) => {
         return {
           ...live,
-          lastWeekRank:
-            foundPreviousWeekRank === undefined ? -1 : foundPreviousWeekRank,
+          lastWeekRank: i,
         };
       });
       return NextResponse.json({ ...foundDoc, lives: modifiedLives });
