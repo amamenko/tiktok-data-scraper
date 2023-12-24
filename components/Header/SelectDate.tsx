@@ -1,3 +1,4 @@
+"use client";
 import React, { KeyboardEvent, useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import { AppContext } from "../App/App";
