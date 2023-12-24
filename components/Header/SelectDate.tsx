@@ -21,31 +21,32 @@ export const SelectDate = () => {
         ? process.env.REACT_APP_NODE_ENV
         : "";
       const formattedDate = format(date, "MM/dd/yyyy");
-
-      const liveArr = await axios
-        .get(
-          nodeEnv && nodeEnv === "production"
-            ? `${process.env.REACT_APP_PROD_SERVER}/api/daily_live`
-            : "http://localhost:4000/api/daily_live",
-          { params: { date: formattedDate } }
-        )
-        .then((res) => res.data)
-        .then((data) => {
-          changeDataLoading(false);
-          return data;
-        })
-        .catch((e) => {
-          changeDataLoading(false);
-          console.error(e);
-        });
-      if (liveArr) {
-        const liveDataObj = liveArr;
-        let liveDataLivesArr = liveDataObj.lives;
-        liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
-          a.updatedAt > b.updatedAt ? -1 : 1
-        );
-        liveDataObj.lives = liveDataLivesArr;
-        changeLiveData(liveDataObj);
+      if (formattedDate) {
+        const liveArr = await axios
+          .get(
+            nodeEnv && nodeEnv === "production"
+              ? `${process.env.REACT_APP_PROD_SERVER}/api/daily_live`
+              : "http://localhost:4000/api/daily_live",
+            { params: { date: formattedDate } }
+          )
+          .then((res) => res.data)
+          .then((data) => {
+            changeDataLoading(false);
+            return data;
+          })
+          .catch((e) => {
+            changeDataLoading(false);
+            console.error(e);
+          });
+        if (liveArr) {
+          const liveDataObj = liveArr;
+          let liveDataLivesArr = liveDataObj.lives;
+          liveDataLivesArr.sort((a: LiveRoom, b: LiveRoom) =>
+            a.updatedAt > b.updatedAt ? -1 : 1
+          );
+          liveDataObj.lives = liveDataLivesArr;
+          changeLiveData(liveDataObj);
+        }
       }
     }
   };
