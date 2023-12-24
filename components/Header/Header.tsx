@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../App/App";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
-import { SelectDate } from "./SelectDate";
+// import { SelectDate } from "./SelectDate";
 import { HeaderSection } from "./HeaderSection";
 import { ThemeContext } from "../Providers/Theme/ThemeProvider";
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,7 +23,7 @@ export const Header = () => {
     <div className="app_header">
       <div className="header_stats_outer_container">
         <div className="header_stats_container title">
-          <SelectDate />
+          {/* <SelectDate /> */}
           {darkMode ? (
             <FaRegMoon
               className="moon_icon"
