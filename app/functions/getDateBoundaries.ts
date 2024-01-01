@@ -1,4 +1,5 @@
 import { format, startOfWeek, addDays, subDays } from "date-fns";
+import "dotenv/config";
 
 process.env.TZ = "America/New_York";
 export const getDateBoundaries = (weeksAgo?: number) => {

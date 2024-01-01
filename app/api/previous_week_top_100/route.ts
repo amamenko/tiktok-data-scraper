@@ -3,7 +3,9 @@ import clientPromise from "@/lib/mongodb";
 import { logger } from "@/lib/logger";
 import { getWeekStart } from "@/utils/getWeekStart";
 import { LiveRoom } from "@/interfaces/LiveRoom.interface";
+import "dotenv/config";
 
+process.env.TZ = "America/New_York";
 export async function GET(req: NextRequest) {
   try {
     const client = await clientPromise;

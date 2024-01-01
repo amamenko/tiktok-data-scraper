@@ -4,7 +4,9 @@ import { getDateBoundaries } from "@/app/functions/getDateBoundaries";
 import clientPromise from "@/lib/mongodb";
 import { logger } from "@/lib/logger";
 import { getWeekStart } from "@/utils/getWeekStart";
+import "dotenv/config";
 
+process.env.TZ = "America/New_York";
 export async function GET(req: NextRequest) {
   const previousWeekStart = getWeekStart(1);
 
@@ -22,6 +24,8 @@ export async function GET(req: NextRequest) {
     const foundDoc = await db.collection("previousweektop100").findOne({
       weekStarting: previousWeekStart,
     });
+
+    console.log({ previousWeekStart });
 
     if (!foundDoc) {
       // First clear out all outdated weeks' data - only keep 2 weeks' worth
