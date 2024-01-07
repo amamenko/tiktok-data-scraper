@@ -41,7 +41,15 @@ const App = ({ top100WeeklyLives }: AppProps) => {
       .get(
         type === "history"
           ? "/api/previous_week_top_100"
-          : "/api/weekly_rankings"
+          : "/api/weekly_rankings",
+        {
+          // query URL without using browser cache
+          headers: {
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
       )
       .then((res) => res.data)
       .then((data) => {
