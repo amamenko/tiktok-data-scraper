@@ -5,6 +5,8 @@ import { getWeekStart } from "@/utils/getWeekStart";
 import { LiveRoom } from "@/interfaces/LiveRoom.interface";
 import "dotenv/config";
 
+export const revalidate = 0;
+
 process.env.TZ = "America/New_York";
 export async function GET(req: NextRequest) {
   try {

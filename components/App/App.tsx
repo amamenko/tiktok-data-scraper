@@ -46,6 +46,7 @@ const App = ({ top100WeeklyLives }: AppProps) => {
           // query URL without using browser cache
           headers: {
             "Cache-Control": "no-cache",
+            cache: "no-store",
             Pragma: "no-cache",
             Expires: "0",
           },

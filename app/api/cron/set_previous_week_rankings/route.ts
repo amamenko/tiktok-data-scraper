@@ -25,8 +25,6 @@ export async function GET(req: NextRequest) {
       weekStarting: previousWeekStart,
     });
 
-    console.log({ previousWeekStart });
-
     if (!foundDoc) {
       // First clear out all outdated weeks' data - only keep 2 weeks' worth
       await db.collection("previousweektop100").deleteMany({

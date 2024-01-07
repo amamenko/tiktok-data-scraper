@@ -4,6 +4,7 @@ import { getDateBoundaries } from "./functions/getDateBoundaries";
 import { getTop100LiveResults } from "./functions/getTop100LiveResults";
 
 export const dynamic = "force-dynamic";
+export const revalidate = false;
 
 const connectToMongoDB = async () => {
   try {
