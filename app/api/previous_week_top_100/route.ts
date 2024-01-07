@@ -24,7 +24,28 @@ export async function GET(req: NextRequest) {
           lastWeekRank: i,
         };
       });
-      return NextResponse.json({ ...foundDoc, lives: modifiedLives });
+      const allUserIds = modifiedLives.map((live: LiveRoom) => live.userID);
+      const foundAssociatedUsers = await db
+        .collection("users")
+        .find({ userID: { $in: allUserIds } })
+        .toArray();
+
+      const lastUpdatedModifiedLives = modifiedLives.map((live: LiveRoom) => {
+        const foundUserUpdatedAt = foundAssociatedUsers.find(
+          (user) => user.userID === live.userID
+        )?.updatedAt;
+        return {
+          ...live,
+          updatedAt: foundUserUpdatedAt
+            ? foundUserUpdatedAt.getTime()
+            : live.updatedAt,
+        };
+      });
+
+      return NextResponse.json({
+        ...foundDoc,
+        lives: lastUpdatedModifiedLives,
+      });
     } else {
       return NextResponse.json(false);
     }
