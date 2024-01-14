@@ -20,6 +20,7 @@ interface MonthlyDataProps {
   monthlyData: {
     _id: string;
     diamonds: number;
+    date: Date;
   }[];
 }
 

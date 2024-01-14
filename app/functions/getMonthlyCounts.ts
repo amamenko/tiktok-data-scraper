@@ -1,5 +1,6 @@
 import { logger } from "@/lib/logger";
 import clientPromise from "@/lib/mongodb";
+import { parse } from "date-fns";
 
 export const getMonthlyCounts = async () => {
   try {
@@ -22,8 +23,14 @@ export const getMonthlyCounts = async () => {
         },
       ])
       .toArray();
-    monthlyCounts.sort((a, b) => a._id.localeCompare(b._id));
-    return { success: true, data: monthlyCounts };
+    const parsedDateArr = monthlyCounts.map((item) => {
+      return {
+        ...item,
+        date: parse(item._id, "MM-yyyy", new Date()),
+      };
+    });
+    parsedDateArr.sort((a, b) => b.date.getTime() - a.date.getTime());
+    return { success: true, data: parsedDateArr };
   } catch (e) {
     if (process.env.NODE_ENV === "production") {
       logger("server").error(e);
