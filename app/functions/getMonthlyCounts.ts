@@ -2,6 +2,7 @@ import { logger } from "@/lib/logger";
 import clientPromise from "@/lib/mongodb";
 import { parse } from "date-fns";
 
+process.env.TZ = "America/New_York";
 export const getMonthlyCounts = async () => {
   try {
     const client = await clientPromise;

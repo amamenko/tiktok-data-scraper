@@ -6,6 +6,8 @@ import { logger } from "@/lib/logger";
 import { getWeekStart } from "@/utils/getWeekStart";
 import "dotenv/config";
 
+export const revalidate = 0;
+
 process.env.TZ = "America/New_York";
 export async function GET(req: NextRequest) {
   const previousWeekStart = getWeekStart(1);
