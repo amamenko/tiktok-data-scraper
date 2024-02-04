@@ -1,24 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getTop100LiveResults } from "@/app/functions/getTop100LiveResults";
-import { getDateBoundaries } from "@/app/functions/getDateBoundaries";
+import { getCurrentTop100Lives } from "@/app/functions/getCurrentTop100Lives";
 
 export const revalidate = 0;
 
 process.env.TZ = "America/New_York";
 export async function GET(req: NextRequest) {
-  const {
-    boundaryDatesArr,
-    weekStartsOnDate,
-    formattedBeginningDay,
-    weekStartsOnFormatted,
-  } = getDateBoundaries();
-
-  const resultResponse = await getTop100LiveResults(
-    boundaryDatesArr,
-    weekStartsOnDate,
-    formattedBeginningDay,
-    weekStartsOnFormatted
-  );
-
+  const resultResponse = await getCurrentTop100Lives();
   return NextResponse.json(resultResponse);
 }

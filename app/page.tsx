@@ -1,7 +1,6 @@
 import clientPromise from "../lib/mongodb";
 import App from "@/components/App/App";
-import { getDateBoundaries } from "./functions/getDateBoundaries";
-import { getTop100LiveResults } from "./functions/getTop100LiveResults";
+import { getCurrentTop100Lives } from "./functions/getCurrentTop100Lives";
 
 export const dynamic = "force-dynamic";
 export const revalidate = false;
@@ -17,20 +16,7 @@ const connectToMongoDB = async () => {
 };
 
 const getWeeklyTop100LiveResults = async () => {
-  const {
-    boundaryDatesArr,
-    weekStartsOnDate,
-    formattedBeginningDay,
-    weekStartsOnFormatted,
-  } = getDateBoundaries();
-
-  const resultResponse = await getTop100LiveResults(
-    boundaryDatesArr,
-    weekStartsOnDate,
-    formattedBeginningDay,
-    weekStartsOnFormatted
-  );
-
+  const resultResponse = await getCurrentTop100Lives();
   return JSON.parse(JSON.stringify(resultResponse));
 };
 
