@@ -45,6 +45,7 @@ export const getTop100LiveResults = async (
     if (process.env.EXCLUDED_USER_IDS) {
       try {
         const parsedExcludedUserIds = JSON.parse(process.env.EXCLUDED_USER_IDS);
+        console.log({ parsedExcludedUserIds });
         if (
           Array.isArray(parsedExcludedUserIds) &&
           parsedExcludedUserIds.length > 0
